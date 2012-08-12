@@ -8,6 +8,7 @@
 
 #import "HomeVC.h"
 #import "UIColor+Additions.h"
+#import "TumblrAPI.h"
 
 #import <JMStaticContentTableViewController/JMStaticContentTableViewController.h>
 
@@ -27,12 +28,19 @@
 }
 
 - (void)done {
-    
+    [[TumblrAPI sharedClient] blogInfo:self.blogNameField.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
+    if (self.navigationItem.rightBarButtonItem.enabled){
+        [self done];
+    }
     return YES;
+}
+
+- (void)toggleDoneEnabled {
+    NSString *blogName = [_blogNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [self.navigationItem.rightBarButtonItem setEnabled:(blogName.length > 0)];
 }
 
 - (void)customizeBlogNameField {
@@ -45,6 +53,7 @@
     _blogNameField.returnKeyType = UIReturnKeyGo;
     _blogNameField.placeholder = @"yvynyl";
     _blogNameField.delegate = self;
+    [self toggleDoneEnabled];
 }
 
 - (void)viewDidLoad {
@@ -55,8 +64,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self action:@selector(done)];
     
+    
     _followSwitch = [[UISwitch alloc] init];
     _blogNameField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 160, 24)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDoneEnabled) name:UITextFieldTextDidChangeNotification object:_blogNameField];
+    
     [self customizeBlogNameField];
     
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
