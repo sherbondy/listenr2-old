@@ -27,6 +27,8 @@
 
 @implementation AddBlogVC
 
+// @TODO: Make follow button do something. Proactively store blog info in the database.
+
 - (NSString *)title { return @"Add Blog"; }
 
 - (void)cancel {
@@ -63,6 +65,15 @@
     [[UIApplication sharedApplication] openURL:blogURL];
 }
 
+- (void)hideBlogInfo {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
+    
+    if ([self.tableView cellForRowAtIndexPath:path]){
+        [[self.staticContentSections objectAtIndex:1] removeAllCells];
+        [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 - (void)showBlogInfo {
     NSString *trueBlogName = [self trueBlogName];
     NSTimeInterval timeDelta = [[NSDate date] timeIntervalSinceDate:self.lastEditTime];
@@ -73,11 +84,7 @@
         NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
         
         [self.tableView beginUpdates];
-        
-        if ([self.tableView cellForRowAtIndexPath:path]){
-            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [[self.staticContentSections objectAtIndex:1] removeAllCells];
-        }
+        [self hideBlogInfo];
         
         [[TumblrAPI sharedClient] blogInfo:trueBlogName success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSDictionary *blog = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
@@ -107,6 +114,8 @@
             } atIndexPath:path animated:YES];
             [self.tableView endUpdates];
         }];
+    } else if ([self trueBlogName].length == 0){
+        [self hideBlogInfo];
     }
 }
 
@@ -174,6 +183,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [_blogInfoTimer invalidate];
+    [self hideBlogInfo];
+    _blogNameField.text = @"";
+    _lastBlogName = nil;
 }
 
 @end
