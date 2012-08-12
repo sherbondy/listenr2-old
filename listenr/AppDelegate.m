@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "HomeVC.h"
+#import "Theme.h"
 
 @implementation AppDelegate
 
@@ -20,6 +22,13 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    HomeVC *homeVC = [HomeVC new];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    
+    [Theme apply];
+    self.window.rootViewController = navController;
+    
     return YES;
 }
 
