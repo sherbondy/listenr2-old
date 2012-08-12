@@ -10,4 +10,6 @@
 
 @interface HomeVC : UIViewController
 
+@property UINavigationController *addNav;
+
 @end
