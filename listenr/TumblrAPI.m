@@ -9,9 +9,6 @@
 #import "TumblrAPI.h"
 #import "Secrets.h"
 
-
-static NSString *const kTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/";
-
 @implementation TumblrAPI
 
 + (TumblrAPI *)sharedClient {
@@ -40,17 +37,17 @@ static NSString *const kTumblrAPIBaseURLString = @"http://api.tumblr.com/v2/";
     return [NSMutableDictionary dictionaryWithDictionary: @{@"api_key": kTumblrAPIKey}];
 }
 
-- (void)blogInfo:(NSString *)blogName {
++ (NSString *)blogHostname:(NSString *)blogName {
     if ([blogName rangeOfString:@"."].location == NSNotFound){
         blogName = [blogName stringByAppendingString:@".tumblr.com"];
     }
-    
-    NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", blogName];
-    [self getPath:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@", error);
-    }];
+    return blogName;
+}
+
+- (void)blogInfo:(NSString *)blogName success:(SuccessBlock)success
+                                      failure:(FailureBlock)failure {
+    NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
+    [self getPath:blogURL parameters:[self apiDict] success:success failure:failure];
 }
 
 @end

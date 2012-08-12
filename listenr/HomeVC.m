@@ -10,12 +10,18 @@
 #import "UIColor+Additions.h"
 #import "TumblrAPI.h"
 
+#import <AFNetworking/UIImageView+AFNetworking.h>
 #import <JMStaticContentTableViewController/JMStaticContentTableViewController.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface AddBlogVC : JMStaticContentTableViewController <UITextFieldDelegate>
 
 @property (nonatomic, retain) UISwitch    *followSwitch;
 @property (nonatomic, retain) UITextField *blogNameField;
+@property (nonatomic, retain) NSTimer     *blogInfoTimer;
+@property (nonatomic, retain) NSDate      *lastEditTime;
+@property (nonatomic, retain) NSString    *lastBlogName;
+
 
 @end
 
@@ -28,19 +34,79 @@
 }
 
 - (void)done {
-    [[TumblrAPI sharedClient] blogInfo:self.blogNameField.text];
+    // show spinner
+    [[TumblrAPI sharedClient] blogInfo:self.blogNameField.text success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        YES;
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (self.navigationItem.rightBarButtonItem.enabled){
+    if (self.navigationItem.rightBarButtonItem.enabled) {
         [self done];
     }
     return YES;
 }
 
+- (NSString *)trueBlogName {
+    return [_blogNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (void)toggleDoneEnabled {
-    NSString *blogName = [_blogNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    [self.navigationItem.rightBarButtonItem setEnabled:(blogName.length > 0)];
+    [self.navigationItem.rightBarButtonItem setEnabled:([self trueBlogName].length > 0)];
+}
+
+- (void)showBlogInfo {
+    NSString *trueBlogName = [self trueBlogName];
+    NSTimeInterval timeDelta = [[NSDate date] timeIntervalSinceDate:self.lastEditTime];
+    if ( (![self.lastBlogName isEqual:trueBlogName]) &&
+         (trueBlogName.length > 0) && timeDelta > 1) {
+        
+        self.lastBlogName = trueBlogName;
+        NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
+        
+        [self.tableView beginUpdates];
+        
+        if ([self.tableView cellForRowAtIndexPath:path]){
+            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[self.staticContentSections objectAtIndex:1] removeAllCells];
+        }
+        
+        [[TumblrAPI sharedClient] blogInfo:trueBlogName success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSDictionary *blog = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
+            
+            [self insertCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+                staticContentCell.reuseIdentifier = @"UserInfoCell";
+                staticContentCell.cellStyle = UITableViewCellStyleSubtitle;
+                cell.textLabel.text = [blog objectForKey:@"title"];
+                cell.detailTextLabel.text = [blog objectForKey:@"url"];
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                
+                NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@blog/%@/avatar/96",
+                                                         kTumblrAPIBaseURLString, [TumblrAPI blogHostname:trueBlogName]]];
+                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                cell.imageView.layer.cornerRadius = 8.0f;
+                cell.imageView.layer.masksToBounds = YES;
+            } atIndexPath:path animated:YES];
+            [self.tableView endUpdates];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self insertCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+                staticContentCell.reuseIdentifier = @"UserInfoCell";
+                cell.textLabel.text = @"Could not find blog.";
+                cell.detailTextLabel.text = nil;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.imageView.image = nil;
+            } atIndexPath:path animated:YES];
+            [self.tableView endUpdates];
+        }];
+    }
+}
+
+- (void)textFieldChanged {
+    [self toggleDoneEnabled];
+    self.lastEditTime = [NSDate date];
 }
 
 - (void)customizeBlogNameField {
@@ -63,11 +129,10 @@
                                                                                           target:self action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self action:@selector(done)];
-    
-    
+        
     _followSwitch = [[UISwitch alloc] init];
     _blogNameField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 160, 24)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDoneEnabled) name:UITextFieldTextDidChangeNotification object:_blogNameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldChanged) name:UITextFieldTextDidChangeNotification object:_blogNameField];
     
     [self customizeBlogNameField];
     
@@ -86,11 +151,23 @@
             cell.accessoryView = self.followSwitch;
         }];
     }];
+    
+    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
+        YES;
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.blogNameField becomeFirstResponder];
+    
+    // this timer pulls blog info periodically if the text field hasn't been changed in the past second and the blog name is new.
+    _blogInfoTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(showBlogInfo) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_blogInfoTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [_blogInfoTimer invalidate];
 }
 
 @end

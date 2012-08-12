@@ -20,6 +20,8 @@
 		3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E3915D764B0003E538C /* UIColor+Additions.m */; };
 		3EB39E4715D76B12003E538C /* Secrets.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB39E4415D7693E003E538C /* Secrets.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3EB39E4915D76C37003E538C /* TumblrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E4115D76918003E538C /* TumblrAPI.m */; };
+		3EB39E5515D784A7003E538C /* default_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB39E5315D784A7003E538C /* default_avatar.png */; };
+		3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB39E5415D784A7003E538C /* default_avatar@2x.png */; };
 		6FE7421D4C3C4EE0ACD22495 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46D6D6B5EA46B5A043E07E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -45,9 +47,11 @@
 		3EB39E3815D764B0003E538C /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EB39E3915D764B0003E538C /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EB39E3E15D76668003E538C /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = usr/lib/libobjc.A.dylib; sourceTree = SDKROOT; };
-		3EB39E4015D76918003E538C /* TumblrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = file; path = TumblrAPI.h; sourceTree = "<group>"; };
-		3EB39E4115D76918003E538C /* TumblrAPI.m */ = {isa = PBXFileReference; lastKnownFileType = file; path = TumblrAPI.m; sourceTree = "<group>"; };
+		3EB39E4015D76918003E538C /* TumblrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TumblrAPI.h; sourceTree = "<group>"; };
+		3EB39E4115D76918003E538C /* TumblrAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TumblrAPI.m; sourceTree = "<group>"; };
 		3EB39E4415D7693E003E538C /* Secrets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Secrets.h; sourceTree = "<group>"; };
+		3EB39E5315D784A7003E538C /* default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_avatar.png; sourceTree = "<group>"; };
+		3EB39E5415D784A7003E538C /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,7 @@
 		3E0D71AF15D74D590042C074 /* listenr */ = {
 			isa = PBXGroup;
 			children = (
+				3EB39E5115D78461003E538C /* resources */,
 				3E58FB1415D7550D00833D98 /* categories */,
 				3EB39E4415D7693E003E538C /* Secrets.h */,
 				3EB39E4015D76918003E538C /* TumblrAPI.h */,
@@ -134,6 +139,15 @@
 				3EB39E3915D764B0003E538C /* UIColor+Additions.m */,
 			);
 			name = categories;
+			sourceTree = "<group>";
+		};
+		3EB39E5115D78461003E538C /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				3EB39E5315D784A7003E538C /* default_avatar.png */,
+				3EB39E5415D784A7003E538C /* default_avatar@2x.png */,
+			);
+			name = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +215,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0D71B415D74D590042C074 /* InfoPlist.strings in Resources */,
+				3EB39E5515D784A7003E538C /* default_avatar.png in Resources */,
+				3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
