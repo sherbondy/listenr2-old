@@ -13,6 +13,7 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <JMStaticContentTableViewController/JMStaticContentTableViewController.h>
 #import <QuartzCore/QuartzCore.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface AddBlogVC : JMStaticContentTableViewController <UITextFieldDelegate>
 
@@ -21,7 +22,7 @@
 @property (nonatomic, retain) NSTimer     *blogInfoTimer;
 @property (nonatomic, retain) NSDate      *lastEditTime;
 @property (nonatomic, retain) NSString    *lastBlogName;
-
+@property (nonatomic, retain) NSMutableDictionary *blogInfo;
 
 @end
 
@@ -37,11 +38,23 @@
 
 - (void)done {
     // show spinner
-    [[TumblrAPI sharedClient] blogInfo:self.blogNameField.text success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        YES;
-    }];
+    NSString *blogName = [self trueBlogName];
+    
+    // Don't make another http request if we already have the info!
+    NSDictionary *blogToAddInfo = [_blogInfo objectForKey:blogName];
+    if (blogToAddInfo){
+        NSLog(@"Already had blog info: %@", blogToAddInfo);
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
+        [[TumblrAPI sharedClient] blogInfo:blogName success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"%@", responseObject);
+            [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [SVProgressHUD dismissWithError:@"Could not find blog."];
+        }];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -88,6 +101,7 @@
         
         [[TumblrAPI sharedClient] blogInfo:trueBlogName success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSDictionary *blog = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
+            [_blogInfo setObject:blog forKey:trueBlogName];
             
             [self insertCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
                 staticContentCell.reuseIdentifier = @"UserInfoCell";
@@ -176,6 +190,8 @@
     [super viewWillAppear:animated];
     [self.blogNameField becomeFirstResponder];
     
+    _blogInfo = [NSMutableDictionary new];
+    
     // this timer pulls blog info periodically if the text field hasn't been changed in the past second and the blog name is new.
     _blogInfoTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(showBlogInfo) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:_blogInfoTimer forMode:NSRunLoopCommonModes];
@@ -186,6 +202,7 @@
     [self hideBlogInfo];
     _blogNameField.text = @"";
     _lastBlogName = nil;
+    _blogInfo = nil;
 }
 
 @end
