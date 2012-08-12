@@ -57,6 +57,12 @@
     [self.navigationItem.rightBarButtonItem setEnabled:([self trueBlogName].length > 0)];
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSURL *blogURL = [NSURL URLWithString:[@"http://" stringByAppendingString:[TumblrAPI blogHostname:self.lastBlogName]]];
+    [[UIApplication sharedApplication] openURL:blogURL];
+}
+
 - (void)showBlogInfo {
     NSString *trueBlogName = [self trueBlogName];
     NSTimeInterval timeDelta = [[NSDate date] timeIntervalSinceDate:self.lastEditTime];
