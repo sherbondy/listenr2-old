@@ -7,8 +7,14 @@
 //
 
 #import "HomeVC.h"
+#import "UIColor+Additions.h"
 
-@interface AddBlogVC : UIViewController
+#import <JMStaticContentTableViewController/JMStaticContentTableViewController.h>
+
+@interface AddBlogVC : JMStaticContentTableViewController <UITextFieldDelegate>
+
+@property (nonatomic, retain) UISwitch    *followSwitch;
+@property (nonatomic, retain) UITextField *blogNameField;
 
 @end
 
@@ -24,11 +30,55 @@
     
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    return YES;
+}
+
+- (void)customizeBlogNameField {
+    _blogNameField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _blogNameField.textColor = [UIColor blueTextColor];
+    _blogNameField.enablesReturnKeyAutomatically = YES;
+    _blogNameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _blogNameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _blogNameField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _blogNameField.returnKeyType = UIReturnKeyGo;
+    _blogNameField.placeholder = @"yvynyl";
+    _blogNameField.delegate = self;
+}
+
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                           target:self action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self action:@selector(done)];
+    
+    _followSwitch = [[UISwitch alloc] init];
+    _blogNameField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 160, 24)];
+    [self customizeBlogNameField];
+    
+    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+            staticContentCell.cellStyle = UITableViewCellStyleDefault;
+            staticContentCell.reuseIdentifier = @"BlogNameCell";
+            cell.textLabel.text = @"Blog Name";
+            cell.accessoryView = self.blogNameField;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }];
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+            staticContentCell.cellStyle = UITableViewCellStyleDefault;
+            staticContentCell.reuseIdentifier = @"FollowCell";
+            cell.textLabel.text = @"Follow?";
+            cell.accessoryView = self.followSwitch;
+        }];
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.blogNameField becomeFirstResponder];
 }
 
 @end
@@ -39,7 +89,7 @@
 
 - (id)init {
     self = [super init];
-    AddBlogVC *addVC = [[AddBlogVC alloc] init];
+    AddBlogVC *addVC = [[AddBlogVC alloc] initWithStyle:UITableViewStyleGrouped];
     
     self.addNav = [[UINavigationController alloc] initWithRootViewController:addVC];
     return self;
@@ -56,6 +106,8 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered
                                                                             target:self action:@selector(logout)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
