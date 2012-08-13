@@ -46,13 +46,18 @@
     
     // should probably set a cache eventually, in which case I'll need to call deleteCache at the proper times.
     _blogController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchAllBlogs managedObjectContext:[AppDelegate moc]
-                                                            sectionNameKeyPath:nil cacheName:nil];
+                                                            sectionNameKeyPath:nil cacheName:@"BlogCache"];
     _blogController.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     NSError *fetchError;
     [_blogController performFetch:&fetchError];
+    
+    NSIndexPath *selectedRow = [[self tableView] indexPathForSelectedRow];
+    if (selectedRow){
+        [[self tableView] deselectRowAtIndexPath:selectedRow animated:YES];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -75,7 +80,6 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     [cell.imageView setImageWithURL:[blog avatarURL] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-    NSLog(@"%@", blog.url);
     return cell;
 }
 
@@ -94,7 +98,16 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     // should implement other NSFetchedResultsControllerDelegate methods for finer control
-    [[self tableView] reloadData];
+    // [[self tableView] reloadData];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (type == NSFetchedResultsChangeInsert){
+        [[self tableView] insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (type == NSFetchedResultsChangeDelete){
+        [[self tableView] deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 @end

@@ -40,6 +40,7 @@
 - (void)done {
     // show spinner
     NSString *blogName = [self trueBlogName];
+    [self setDoneEnabled:NO];
     
     [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
     [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
@@ -49,6 +50,10 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismissWithError:@"Could not find blog."];
     }];
+}
+
+- (void)setDoneEnabled:(BOOL)enabled {
+    self.navigationItem.rightBarButtonItem.enabled = enabled;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
