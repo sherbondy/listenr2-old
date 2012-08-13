@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1807" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Blog" syncable="YES">
+        <attribute name="blogDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="posts" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="updated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="songs" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="blog" inverseEntity="Song" syncable="YES"/>
+    </entity>
+    <entity name="Song" syncable="YES">
+        <attribute name="album" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="album_art" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="audio_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="post_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="reblog_key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="track_name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="blog" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Blog" inverseName="songs" inverseEntity="Blog" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Blog" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="Song" positionX="160" positionY="192" width="128" height="225"/>
+    </elements>
 </model>
