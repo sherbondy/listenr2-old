@@ -12,13 +12,13 @@
 
 @interface Blog : NSManagedObject
 
-@property (nonatomic, retain) NSString * blogDescription;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * posts;
-@property (nonatomic, retain) NSDate * updated;
-@property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSNumber * following;
-@property (nonatomic, retain) NSManagedObject *songs;
+@property (nonatomic, strong) NSString * blogDescription;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSNumber * posts;
+@property (nonatomic, strong) NSDate * updated;
+@property (nonatomic, strong) NSString * url;
+@property (nonatomic, strong) NSNumber * following;
+@property (nonatomic, strong) NSManagedObject *songs;
 
 // transforms the dictionary output of a blog request into a blog
 + (id)blogForData:(NSDictionary *)blogData;

@@ -10,6 +10,8 @@
 #import "AddBlogVC.h"
 #import "AppDelegate.h"
 #import "Blog.h"
+#import "SongsVC.h"
+
 #import <AFNetworking/UIImageView+AFNetworking.h>
 
 @implementation HomeVC
@@ -18,7 +20,7 @@
     self = [super init];
     AddBlogVC *addVC = [[AddBlogVC alloc] initWithStyle:UITableViewStyleGrouped];
     
-    self.addNav = [[UINavigationController alloc] initWithRootViewController:addVC];
+    _addNav = [[UINavigationController alloc] initWithRootViewController:addVC];
     return self;
 }
 
@@ -95,10 +97,11 @@
     [[AppDelegate sharedDelegate] saveContext];
 }
 
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    // should implement other NSFetchedResultsControllerDelegate methods for finer control
-    // [[self tableView] reloadData];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Blog *source = [_blogController objectAtIndexPath:indexPath];
+    [[SongsVC sharedVC] setSource:source];
+    [self.navigationController pushViewController:[SongsVC sharedVC] animated:YES];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath

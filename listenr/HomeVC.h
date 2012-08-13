@@ -10,7 +10,7 @@
 
 @interface HomeVC : UITableViewController <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, retain) UINavigationController *addNav;
-@property (nonatomic, retain) NSFetchedResultsController *blogController;
+@property (nonatomic, readonly, retain) UINavigationController *addNav;
+@property (nonatomic, readonly, retain) NSFetchedResultsController *blogController;
 
 @end
