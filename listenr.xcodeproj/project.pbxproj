@@ -17,6 +17,10 @@
 		3E0D71BD15D74D590042C074 /* listenr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D71BB15D74D590042C074 /* listenr.xcdatamodeld */; };
 		3E58FB0C15D7500900833D98 /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E58FB0B15D7500900833D98 /* HomeVC.m */; };
 		3E58FB1015D7501900833D98 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E58FB0F15D7501900833D98 /* Theme.m */; };
+		3E5C467315D8A48E00D540BF /* NSManagedObjectContext+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5C467115D8A48E00D540BF /* NSManagedObjectContext+Additions.h */; };
+		3E5C467415D8A48E00D540BF /* NSManagedObjectContext+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5C467215D8A48E00D540BF /* NSManagedObjectContext+Additions.m */; };
+		3E5C467715D8A70500D540BF /* Blog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5C467515D8A70500D540BF /* Blog.h */; };
+		3E5C467815D8A70500D540BF /* Blog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5C467615D8A70500D540BF /* Blog.m */; };
 		3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E3915D764B0003E538C /* UIColor+Additions.m */; };
 		3EB39E4715D76B12003E538C /* Secrets.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB39E4415D7693E003E538C /* Secrets.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3EB39E4915D76C37003E538C /* TumblrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E4115D76918003E538C /* TumblrAPI.m */; };
@@ -46,6 +50,10 @@
 		3E58FB0B15D7500900833D98 /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		3E58FB0E15D7501900833D98 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		3E58FB0F15D7501900833D98 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		3E5C467115D8A48E00D540BF /* NSManagedObjectContext+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Additions.h"; sourceTree = "<group>"; };
+		3E5C467215D8A48E00D540BF /* NSManagedObjectContext+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Additions.m"; sourceTree = "<group>"; };
+		3E5C467515D8A70500D540BF /* Blog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blog.h; sourceTree = "<group>"; };
+		3E5C467615D8A70500D540BF /* Blog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blog.m; sourceTree = "<group>"; };
 		3EB39E3815D764B0003E538C /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EB39E3915D764B0003E538C /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EB39E4015D76918003E538C /* TumblrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TumblrAPI.h; sourceTree = "<group>"; };
@@ -139,6 +147,8 @@
 			children = (
 				3EB39E3815D764B0003E538C /* UIColor+Additions.h */,
 				3EB39E3915D764B0003E538C /* UIColor+Additions.m */,
+				3E5C467115D8A48E00D540BF /* NSManagedObjectContext+Additions.h */,
+				3E5C467215D8A48E00D540BF /* NSManagedObjectContext+Additions.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -148,6 +158,8 @@
 			children = (
 				3EB39E4015D76918003E538C /* TumblrAPI.h */,
 				3EB39E4115D76918003E538C /* TumblrAPI.m */,
+				3E5C467515D8A70500D540BF /* Blog.h */,
+				3E5C467615D8A70500D540BF /* Blog.m */,
 				3E0D71BB15D74D590042C074 /* listenr.xcdatamodeld */,
 			);
 			name = models;
@@ -171,6 +183,8 @@
 			files = (
 				3EB39E4715D76B12003E538C /* Secrets.h in Headers */,
 				3EB39EB915D86DF9003E538C /* AddBlogViewController.h in Headers */,
+				3E5C467315D8A48E00D540BF /* NSManagedObjectContext+Additions.h in Headers */,
+				3E5C467715D8A70500D540BF /* Blog.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +279,8 @@
 				3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */,
 				3EB39E4915D76C37003E538C /* TumblrAPI.m in Sources */,
 				3EB39EBA15D86DF9003E538C /* AddBlogViewController.m in Sources */,
+				3E5C467415D8A48E00D540BF /* NSManagedObjectContext+Additions.m in Sources */,
+				3E5C467815D8A70500D540BF /* Blog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

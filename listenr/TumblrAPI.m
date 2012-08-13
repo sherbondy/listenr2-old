@@ -8,6 +8,9 @@
 
 #import "TumblrAPI.h"
 #import "Secrets.h"
+#import "AppDelegate.h"
+#import "NSManagedObjectContext+Additions.h"
+#import "Blog.h"
 
 @implementation TumblrAPI
 
@@ -29,7 +32,7 @@
     
     [self registerHTTPOperationClass:[AFJSONRequestOperation class]];    
 	[self setDefaultHeader:@"Accept" value:@"application/json"];
-    
+        
     return self;
 }
 
@@ -44,10 +47,27 @@
     return blogName;
 }
 
-- (void)blogInfo:(NSString *)blogName success:(SuccessBlock)success
-                                      failure:(FailureBlock)failure {
-    NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
-    [self getPath:blogURL parameters:[self apiDict] success:success failure:failure];
+
+
+- (void)blogInfo:(NSString *)blogName success:(BlogSuccessBlock)successBlock
+                                      failure:(FailureBlock)failureBlock {
+    
+    NSSet *results = [[AppDelegate moc] fetchObjectsForEntityName:@"Blog" withPredicate:@"name == %@", blogName];
+    NSLog(@"%@", results);
+    
+    if (results.count == 0){
+        NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
+        [self getPath:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject){
+            NSDictionary *blogData = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
+            Blog *blog = [Blog blogForData:blogData];
+            NSLog(@"%@", blog);
+            
+            successBlock(blog);
+            
+        } failure:failureBlock];
+    } else {
+        successBlock([results anyObject]);
+    }
 }
 
 @end
