@@ -34,6 +34,7 @@
 		3EB39E5515D784A7003E538C /* default_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB39E5315D784A7003E538C /* default_avatar.png */; };
 		3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB39E5415D784A7003E538C /* default_avatar@2x.png */; };
 		3EB39EBA15D86DF9003E538C /* AddBlogVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39EB815D86DF9003E538C /* AddBlogVC.m */; };
+		3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED8586E15D932560044B0A1 /* AVFoundation.framework */; };
 		6FE7421D4C3C4EE0ACD22495 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46D6D6B5EA46B5A043E07E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		3EB39E5315D784A7003E538C /* default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_avatar.png; sourceTree = "<group>"; };
 		3EB39E5415D784A7003E538C /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
 		3EB39EB815D86DF9003E538C /* AddBlogVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBlogVC.m; sourceTree = "<group>"; };
+		3ED8586E15D932560044B0A1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */,
 				3E0D71A815D74D590042C074 /* UIKit.framework in Frameworks */,
 				3E0D71AA15D74D590042C074 /* Foundation.framework in Frameworks */,
 				3E0D71AC15D74D590042C074 /* CoreGraphics.framework in Frameworks */,
@@ -114,6 +117,7 @@
 		3E0D71A615D74D590042C074 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3ED8586E15D932560044B0A1 /* AVFoundation.framework */,
 				3E0D71A715D74D590042C074 /* UIKit.framework */,
 				3E0D71A915D74D590042C074 /* Foundation.framework */,
 				3E0D71AB15D74D590042C074 /* CoreGraphics.framework */,

@@ -40,4 +40,9 @@
     return song;
 }
 
+- (NSURL *)trueAudioURL
+{
+    return [NSURL URLWithString:[self.audio_url stringByAppendingString:@"?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio"]];
+}
+
 @end

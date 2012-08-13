@@ -14,6 +14,7 @@
 @interface Song : NSManagedObject
 
 + (Song *)songForAttrs:(NSDictionary *)songAttrs;
+- (NSURL *)trueAudioURL;
 
 @property (nonatomic, strong) NSString * album;
 @property (nonatomic, strong) NSString * album_art;

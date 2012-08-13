@@ -12,11 +12,22 @@
 #import "AppDelegate.h"
 #import "TumblrAPI.h"
 #import "NSManagedObjectContext+Additions.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface SongsVC ()
 @end
 
 @implementation SongsVC
+
++ (AVPlayer *)sharedPlayer
+{
+    static AVPlayer *player;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        player = [[AVPlayer alloc] init];
+    });
+    return player;
+}
 
 - (id)initWithSource:(Blog *)source
 {
@@ -43,6 +54,8 @@
 
     self.title = blogName;
     
+    [[SongsVC sharedPlayer] addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+
     _fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Song"];
     // Make it possible to sort by song name too!
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO]; // sort by post date
@@ -121,12 +134,41 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    Song *song = [_songsController objectAtIndexPath:indexPath];
+    NSLog(@"%@", song.audio_url);
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[song trueAudioURL]];
+    [[SongsVC sharedPlayer] replaceCurrentItemWithPlayerItem:item];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([object isKindOfClass:[AVPlayer self]]){
+        
+        if ([[change objectForKey:@"new"] intValue] == AVPlayerStatusReadyToPlay){
+            NSLog(@"Time to play!");
+            AVPlayer *player = object;
+            [player play];
+        }
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (type == NSFetchedResultsChangeInsert){
+        [[self tableView] insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (type == NSFetchedResultsChangeDelete){
+        [[self tableView] deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [[self tableView] beginUpdates];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [[self tableView] reloadData];
-    
+    [[self tableView] endUpdates];
 }
 
 @end

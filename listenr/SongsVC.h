@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class Blog;
+@class AVPlayer;
 
 @interface SongsVC : UITableViewController <NSFetchedResultsControllerDelegate>
 
@@ -17,5 +18,6 @@
 @property (nonatomic, readonly, strong) Blog *source;
 
 - (id)initWithSource:(Blog *)source;
++ (AVPlayer *)sharedPlayer;
 
 @end
