@@ -7,7 +7,7 @@
 //
 
 #import "HomeVC.h"
-#import "AddBlogViewController.h"
+#import "AddBlogVC.h"
 #import "AppDelegate.h"
 #import "Blog.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
@@ -16,7 +16,7 @@
 
 - (id)init {
     self = [super init];
-    AddBlogViewController *addVC = [[AddBlogViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    AddBlogVC *addVC = [[AddBlogVC alloc] initWithStyle:UITableViewStyleGrouped];
     
     self.addNav = [[UINavigationController alloc] initWithRootViewController:addVC];
     return self;
