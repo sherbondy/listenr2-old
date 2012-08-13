@@ -18,7 +18,7 @@
 
 
 + (id)sharedDelegate;
-+ (id)moc; // managed object context
++ (NSManagedObjectContext *)moc; // managed object context
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

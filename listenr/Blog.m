@@ -8,6 +8,7 @@
 
 #import "Blog.h"
 #import "AppDelegate.h"
+#import "TumblrAPI.h"
 
 @implementation Blog
 
@@ -38,6 +39,12 @@
         transformedValue = value;
     }
     return transformedValue;
+}
+
+- (NSURL *)avatarURL
+{
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@blog/%@/avatar/96",
+                                             kTumblrAPIBaseURLString, [TumblrAPI blogHostname:self.name]]];
 }
 
 + (id)blogForData:(NSDictionary *)blogData {

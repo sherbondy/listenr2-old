@@ -22,7 +22,7 @@
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
-+(id)moc
++(NSManagedObjectContext *)moc
 {
     return [[AppDelegate sharedDelegate] managedObjectContext];
 }

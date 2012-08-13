@@ -23,4 +23,6 @@
 // transforms the dictionary output of a blog request into a blog
 + (id)blogForData:(NSDictionary *)blogData;
 
+- (NSURL *)avatarURL;
+
 @end

@@ -100,10 +100,7 @@
                 cell.textLabel.text = blog.name;
                 cell.detailTextLabel.text = blog.url;
                 cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-                
-                NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@blog/%@/avatar/96",
-                                                         kTumblrAPIBaseURLString, [TumblrAPI blogHostname:trueBlogName]]];
-                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                [cell.imageView setImageWithURL:[blog avatarURL] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
                 cell.imageView.layer.cornerRadius = 8.0f;
                 cell.imageView.layer.masksToBounds = YES;
             } atIndexPath:path animated:YES];
