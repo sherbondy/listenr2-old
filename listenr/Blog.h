@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSNumber * following;
 @property (nonatomic, strong) NSManagedObject *songs;
+@property (nonatomic, strong) NSNumber * favorite;
 
 // transforms the dictionary output of a blog request into a blog
 + (id)blogForAttrs:(NSDictionary *)blogAttrs;

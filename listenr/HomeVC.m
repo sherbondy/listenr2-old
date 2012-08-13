@@ -42,12 +42,13 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self action:@selector(add)];
     
-    NSFetchRequest *fetchAllBlogs = [NSFetchRequest fetchRequestWithEntityName:@"Blog"];
+    NSFetchRequest *fetchFavoriteBlogs = [NSFetchRequest fetchRequestWithEntityName:@"Blog"];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]; // sort by blog name
-    fetchAllBlogs.sortDescriptors = @[sortDescriptor];
+    fetchFavoriteBlogs.sortDescriptors = @[sortDescriptor];
+    fetchFavoriteBlogs.predicate = [NSPredicate predicateWithFormat:@"favorite == %@", @(YES)];
     
     // should probably set a cache eventually, in which case I'll need to call deleteCache at the proper times.
-    _blogController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchAllBlogs managedObjectContext:[AppDelegate moc]
+    _blogController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchFavoriteBlogs managedObjectContext:[AppDelegate moc]
                                                             sectionNameKeyPath:nil cacheName:@"BlogCache"];
     _blogController.delegate = self;
 }
@@ -72,9 +73,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BlogCell"];
+    static NSString *BlogCellID = @"BlogCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BlogCellID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BlogCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:BlogCellID];
     }
     
     Blog *blog = [_blogController objectAtIndexPath:indexPath];
@@ -100,8 +102,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Blog *source = [_blogController objectAtIndexPath:indexPath];
-    [[SongsVC sharedVC] setSource:source];
-    [self.navigationController pushViewController:[SongsVC sharedVC] animated:YES];
+    [self.navigationController pushViewController:[[SongsVC alloc] initWithSource:source] animated:YES];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath

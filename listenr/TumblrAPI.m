@@ -48,15 +48,17 @@
     return blogName;
 }
 
-
+- (Blog *)blogWithName:(NSString *)blogName
+{
+    return [[[AppDelegate moc] fetchObjectsForEntityName:@"Blog" withPredicate:@"name == %@", blogName, nil] anyObject];
+}
 
 - (void)blogInfo:(NSString *)blogName success:(BlogSuccessBlock)successBlock
                                       failure:(FailureBlock)failureBlock {
     
-    NSSet *results = [[AppDelegate moc] fetchObjectsForEntityName:@"Blog" withPredicate:@"name == %@", blogName];
-    NSLog(@"%@", results);
+    Blog *existingBlog = [self blogWithName:blogName];
     
-    if (results.count == 0){
+    if (!existingBlog){
         NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
         [self getPath:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject){
             NSDictionary *blogAttrs = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
@@ -67,7 +69,7 @@
             
         } failure:failureBlock];
     } else {
-        successBlock([results anyObject]);
+        successBlock(existingBlog);
     }
 }
 
@@ -79,17 +81,49 @@
     [params setObject:@"audio" forKey:@"type"];
     [params setObject:@"0" forKey:@"offset"];
     
-    [self getPath:postsURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"%@", responseObject);
+    [self getPath:postsURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {        
+        NSDictionary *response = [responseObject objectForKey:@"response"];
         
-        NSMutableArray *songs = [NSMutableArray new];
-        NSArray *postData = [[responseObject objectForKey:@"response"] objectForKey:@"posts"];
-        for (NSDictionary *post in postData){
-            Song *song = [Song songForAttrs:post];
-            [songs addObject:song];
+        NSDictionary *blogData = [response objectForKey:@"blog"];
+        Blog *blog = [self blogWithName:[blogData objectForKey:@"name"]];
+        if (!blog){
+            blog = [Blog blogForAttrs:blogData];
         }
         
-        NSLog(@"%@", songs);
+        NSArray *postData = [response objectForKey:@"posts"];
+        
+        NSMutableSet *postIDs = [NSMutableSet set];
+        for (NSDictionary *post in postData){
+            [postIDs addObject:[post objectForKey:@"id"]];
+        }
+        
+        NSMutableArray *songs = [NSMutableArray new];
+        
+        // prune existing postIDs from the set of post IDs
+        NSPredicate *existingPredicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
+        NSSet *existingPosts = [[AppDelegate moc] fetchObjectsForEntityName:@"Song" withPredicate:existingPredicate];
+        for (Song *song in existingPosts){
+            if ([postIDs containsObject:song.post_id]){
+                [postIDs removeObject:song.post_id];
+            } else {
+                [songs addObject:song];
+            }
+        }
+
+        // Only add songs that don't already exist in the database
+        for (NSDictionary *post in postData){
+            if ([postIDs containsObject:[post objectForKey:@"id"]]){
+                Song *song = [Song songForAttrs:post];
+                // Spotify ruins the fun :(
+                if ([[song valueForKey:@"audio_url"] rangeOfString:@"spotify.com"].location == NSNotFound){
+                    song.blog = blog;
+                    [songs addObject:song];
+                }
+            }
+        }
+                
+        // need to associate blogs with songs...
+        successBlock(songs);
         
     } failure:failureBlock];
 }

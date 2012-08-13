@@ -14,8 +14,8 @@
 
 @property (nonatomic, readonly, strong) NSFetchedResultsController *songsController;
 @property (nonatomic, readonly, strong) NSFetchRequest *fetchRequest;
+@property (nonatomic, readonly, strong) Blog *source;
 
-+ (id)sharedVC;
-- (void)setSource:(Blog *)source;
+- (id)initWithSource:(Blog *)source;
 
 @end

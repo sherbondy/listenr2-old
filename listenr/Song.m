@@ -25,11 +25,18 @@
 @dynamic track_name;
 @dynamic blog;
 
+// consider adding tag support
+
 // post_id == id in tumblr land
 
 + (Song *)songForAttrs:(NSDictionary *)songAttrs
 {
     Song *song = [Song objectWithAttrs:songAttrs];
+    
+    NSString *songID = [songAttrs objectForKey:@"id"];
+    if (songID){
+        [song setValue:songID forKey:@"post_id"];
+    }
     return song;
 }
 

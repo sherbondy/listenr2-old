@@ -8,61 +8,63 @@
 
 #import "SongsVC.h"
 #import "Blog.h"
+#import "Song.h"
 #import "AppDelegate.h"
 #import "TumblrAPI.h"
+#import "NSManagedObjectContext+Additions.h"
 
 @interface SongsVC ()
 @end
 
 @implementation SongsVC
 
-+ (id)sharedVC
+- (id)initWithSource:(Blog *)source
 {
-    static dispatch_once_t pred;
-    static SongsVC *_sharedVC;
-    
-    dispatch_once(&pred, ^{
-        _sharedVC = [[self alloc] initWithStyle:UITableViewStylePlain];
-    });
-    return _sharedVC;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        // Custom initialization
+        _source = source;
     }
     return self;
 }
 
-- (void)setSource:(Blog *)source
+- (void)fetch
 {
     NSError *error;
-
-    NSString *blogName = source.name;
-    self.title = blogName;
-    
-    // grab the latest data from the blog
-    [[TumblrAPI sharedClient] blogPosts:blogName success:nil failure:nil];
-
-    _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
     [_songsController performFetch:&error];
+    if (error){
+        NSLog(@"Error: %@", [error description]);
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *blogName = self.source.name;
 
+    self.title = blogName;
+    
     _fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Song"];
     // Make it possible to sort by song name too!
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO]; // sort by post date
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO]; // sort by post date
     _fetchRequest.sortDescriptors = @[sortDescriptor];
-    
-    // Not wise to use a cache here since we're changing the songs so frequently.
+    _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
+        
     _songsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:[AppDelegate moc]
-                                                            sectionNameKeyPath:nil cacheName:nil];
+                                                             sectionNameKeyPath:nil cacheName:nil];
     _songsController.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self fetch];
+    
+    // grab the latest data from the blog
+    [[TumblrAPI sharedClient] blogPosts:self.source.name success:^(NSArray *posts) {
+        [[AppDelegate sharedDelegate] saveContext];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Request failed: %@", [error description]);
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,22 +78,35 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    if (section == 0){
+        return [_songsController fetchedObjects].count;
+    }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"SongCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
     
-    // Configure the cell...
+    Song *song = [self.songsController objectAtIndexPath:indexPath];
+    NSString *defaultTrackName = @"Unknown Song";
+    NSString *defaultArtist = @"Unknown Artist";
+    NSString *defaultAlbum = @"Unknown Album";
+    cell.textLabel.text = song.track_name ? song.track_name : defaultTrackName;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", (song.artist ? song.artist : defaultArtist), (song.album ? song.album : defaultAlbum)];
     
+    [cell.imageView setImageWithURL:[NSURL URLWithString:song.album_art] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+
     return cell;
 }
 
@@ -106,6 +121,12 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [[self tableView] reloadData];
+    
 }
 
 @end

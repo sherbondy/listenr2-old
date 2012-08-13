@@ -45,6 +45,7 @@
         
         [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
         [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
+            blog.favorite = @(YES);
             [[AppDelegate sharedDelegate] saveContext];
             [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
             [self dismissViewControllerAnimated:YES completion:nil];

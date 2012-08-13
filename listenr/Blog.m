@@ -20,6 +20,7 @@
 @dynamic url;
 @dynamic following;
 @dynamic songs;
+@dynamic favorite;
 
 - (NSURL *)avatarURL
 {

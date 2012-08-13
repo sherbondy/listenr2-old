@@ -2,12 +2,13 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1807" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Blog" representedClassName="Blog" syncable="YES">
         <attribute name="blogDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="posts" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="updated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="songs" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="blog" inverseEntity="Song" syncable="YES"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="blog" inverseEntity="Song" syncable="YES"/>
     </entity>
     <entity name="Song" representedClassName="Song" syncable="YES">
         <attribute name="album" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,7 +25,7 @@
         <relationship name="blog" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Blog" inverseName="songs" inverseEntity="Blog" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Blog" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="Song" positionX="0" positionY="0" width="128" height="225"/>
+        <element name="Blog" positionX="-216" positionY="-54" width="128" height="163"/>
+        <element name="Song" positionX="351" positionY="-63" width="128" height="223"/>
     </elements>
 </model>
