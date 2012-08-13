@@ -17,7 +17,7 @@
 @dynamic artist;
 @dynamic audio_url;
 @dynamic caption;
-@dynamic date;
+@dynamic timestamp;
 @dynamic post_id;
 @dynamic liked;
 @dynamic post_url;
@@ -30,6 +30,7 @@
 + (Song *)songForAttrs:(NSDictionary *)songAttrs
 {
     Song *song = [Song objectWithAttrs:songAttrs];
+    return song;
 }
 
 @end

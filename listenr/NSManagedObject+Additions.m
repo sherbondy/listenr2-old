@@ -14,7 +14,7 @@
 // Saving updated (NSDate) does not work right now. Bug in Core Data?
 
 + (id)transformValue:(id)value toType:(NSAttributeType)attributeType
-{
+{    
     id transformedValue;
     
     if (attributeType >= NSInteger16AttributeType && attributeType <= NSFloatAttributeType) {
@@ -22,8 +22,10 @@
             transformedValue = [[NSNumberFormatter new] numberFromString:value];
         }
     } else if (attributeType == NSDateAttributeType){
-        // only handles timestamps
-        transformedValue = [NSDate dateWithTimeIntervalSince1970:[value longValue]];
+        if ([value isKindOfClass:[NSNumber self]]){
+            // only handles timestamps
+            transformedValue = [NSDate dateWithTimeIntervalSince1970:[value longValue]];
+        }
     }
     
     if (!transformedValue){

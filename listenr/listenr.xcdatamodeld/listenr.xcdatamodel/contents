@@ -15,11 +15,11 @@
         <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="audio_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="post_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="post_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reblog_key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="track_name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="blog" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Blog" inverseName="songs" inverseEntity="Blog" syncable="YES"/>
     </entity>

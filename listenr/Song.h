@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSString * artist;
 @property (nonatomic, strong) NSString * audio_url;
 @property (nonatomic, strong) NSString * caption;
-@property (nonatomic, strong) NSDate * date;
+@property (nonatomic, strong) NSDate * timestamp;
 @property (nonatomic, strong) NSNumber * post_id;
 @property (nonatomic, strong) NSNumber * liked;
 @property (nonatomic, strong) NSString * post_url;

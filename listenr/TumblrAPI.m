@@ -86,7 +86,10 @@
         NSArray *postData = [[responseObject objectForKey:@"response"] objectForKey:@"posts"];
         for (NSDictionary *post in postData){
             Song *song = [Song songForAttrs:post];
+            [songs addObject:song];
         }
+        
+        NSLog(@"%@", songs);
         
     } failure:failureBlock];
 }
