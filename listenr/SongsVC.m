@@ -9,6 +9,7 @@
 #import "SongsVC.h"
 #import "Blog.h"
 #import "AppDelegate.h"
+#import "TumblrAPI.h"
 
 @interface SongsVC ()
 @end
@@ -39,12 +40,13 @@
 {
     NSError *error;
 
-    self.title = source.name;
+    NSString *blogName = source.name;
+    self.title = blogName;
     
     // grab the latest data from the blog
-    
+    [[TumblrAPI sharedClient] blogPosts:blogName success:nil failure:nil];
 
-    _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", source.name];
+    _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
     [_songsController performFetch:&error];
 }
 

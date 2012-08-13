@@ -13,6 +13,8 @@
 
 @interface Song : NSManagedObject
 
++ (Song *)songForAttrs:(NSDictionary *)songAttrs;
+
 @property (nonatomic, strong) NSString * album;
 @property (nonatomic, strong) NSString * album_art;
 @property (nonatomic, strong) NSString * artist;

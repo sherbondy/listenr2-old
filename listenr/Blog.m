@@ -9,6 +9,7 @@
 #import "Blog.h"
 #import "AppDelegate.h"
 #import "TumblrAPI.h"
+#import "NSManagedObject+Additions.h"
 
 @implementation Blog
 
@@ -20,52 +21,18 @@
 @dynamic following;
 @dynamic songs;
 
-// Saving updated (NSDate) does not work right now. Bug in Core Data?
-
-+ (id)transformValue:(id)value toType:(NSAttributeType)attributeType
-{    
-    id transformedValue;
-    
-    if (attributeType >= NSInteger16AttributeType && attributeType <= NSFloatAttributeType) {
-        if ([value isKindOfClass:[NSString self]]){
-            transformedValue = [[NSNumberFormatter new] numberFromString:value];
-        }
-    } else if (attributeType == NSDateAttributeType){
-        // only handles timestamps
-        transformedValue = [NSDate dateWithTimeIntervalSince1970:[value longValue]];
-    }
-    
-    if (!transformedValue){
-        transformedValue = value;
-    }
-    return transformedValue;
-}
-
 - (NSURL *)avatarURL
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@blog/%@/avatar/96",
                                              kTumblrAPIBaseURLString, [TumblrAPI blogHostname:self.name]]];
 }
 
-+ (id)blogForData:(NSDictionary *)blogData {
-    NSManagedObjectContext *moc = [AppDelegate moc];
-    NSEntityDescription *description = [NSEntityDescription entityForName:NSStringFromClass([Blog class])
-                                                   inManagedObjectContext:moc];
-    NSDictionary *attributes = [description attributesByName];
-    Blog *blog = [[Blog alloc] initWithEntity:description insertIntoManagedObjectContext:moc];
-
-    for (id key in blogData){
-        id value = [blogData objectForKey:key];
-        NSAttributeDescription *attribute = [attributes objectForKey:key];
-        value = [Blog transformValue:value toType:[attribute attributeType]];
-        
-        if ([key isEqualToString:@"description"]){
-            [blog setValue:value forKey:@"blogDescription"];
-        } else {
-            if ([attributes objectForKey:key]){
-                [blog setValue:value forKey:key];
-            }
-        }
++ (id)blogForAttrs:(NSDictionary *)blogAttrs {
+    Blog *blog = [Blog objectWithAttrs:blogAttrs];
+    
+    NSString *blogDescription = [blogAttrs objectForKey:@"description"];
+    if (blogDescription){
+        [blog setValue:blogDescription forKey:@"blogDescription"];
     }
 
     return blog;

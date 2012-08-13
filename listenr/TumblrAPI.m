@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "NSManagedObjectContext+Additions.h"
 #import "Blog.h"
+#import "Song.h"
 
 @implementation TumblrAPI
 
@@ -58,8 +59,8 @@
     if (results.count == 0){
         NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
         [self getPath:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject){
-            NSDictionary *blogData = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
-            Blog *blog = [Blog blogForData:blogData];
+            NSDictionary *blogAttrs = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
+            Blog *blog = [Blog blogForAttrs:blogAttrs];
             NSLog(@"%@", blog);
             
             successBlock(blog);
@@ -68,6 +69,26 @@
     } else {
         successBlock([results anyObject]);
     }
+}
+
+- (void)blogPosts:(NSString *)blogName success:(PostsSuccessBlock)successBlock
+                                       failure:(FailureBlock)failureBlock {
+    
+    NSString *postsURL = [NSString stringWithFormat:@"blog/%@/posts", [TumblrAPI blogHostname:blogName]];
+    NSMutableDictionary *params = [self apiDict];
+    [params setObject:@"audio" forKey:@"type"];
+    [params setObject:@"0" forKey:@"offset"];
+    
+    [self getPath:postsURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //NSLog(@"%@", responseObject);
+        
+        NSMutableArray *songs = [NSMutableArray new];
+        NSArray *postData = [[responseObject objectForKey:@"response"] objectForKey:@"posts"];
+        for (NSDictionary *post in postData){
+            Song *song = [Song songForAttrs:post];
+        }
+        
+    } failure:failureBlock];
 }
 
 @end

@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSManagedObject *songs;
 
 // transforms the dictionary output of a blog request into a blog
-+ (id)blogForData:(NSDictionary *)blogData;
++ (id)blogForAttrs:(NSDictionary *)blogAttrs;
 
 - (NSURL *)avatarURL;
 

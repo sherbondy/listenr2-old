@@ -8,7 +8,7 @@
 
 #import "Song.h"
 #import "Blog.h"
-
+#import "NSManagedObject+Additions.h"
 
 @implementation Song
 
@@ -26,5 +26,10 @@
 @dynamic blog;
 
 // post_id == id in tumblr land
+
++ (Song *)songForAttrs:(NSDictionary *)songAttrs
+{
+    Song *song = [Song objectWithAttrs:songAttrs];
+}
 
 @end

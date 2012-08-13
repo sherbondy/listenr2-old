@@ -26,6 +26,8 @@
 		3E5FD1A915D8E48F0072A3B4 /* SongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1A715D8E48F0072A3B4 /* SongsVC.m */; };
 		3E5FD1AC15D8E8C10072A3B4 /* Song.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AA15D8E8C10072A3B4 /* Song.h */; };
 		3E5FD1AD15D8E8C10072A3B4 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AB15D8E8C10072A3B4 /* Song.m */; };
+		3E5FD1B015D8EFF70072A3B4 /* NSManagedObject+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */; };
+		3E5FD1B115D8EFF70072A3B4 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */; };
 		3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E3915D764B0003E538C /* UIColor+Additions.m */; };
 		3EB39E4715D76B12003E538C /* Secrets.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB39E4415D7693E003E538C /* Secrets.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3EB39E4915D76C37003E538C /* TumblrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E4115D76918003E538C /* TumblrAPI.m */; };
@@ -63,6 +65,8 @@
 		3E5FD1A715D8E48F0072A3B4 /* SongsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongsVC.m; sourceTree = "<group>"; };
 		3E5FD1AA15D8E8C10072A3B4 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
 		3E5FD1AB15D8E8C10072A3B4 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
+		3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Additions.h"; sourceTree = "<group>"; };
+		3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		3EB39E3815D764B0003E538C /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EB39E3915D764B0003E538C /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EB39E4015D76918003E538C /* TumblrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TumblrAPI.h; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 				3EB39E4115D76918003E538C /* TumblrAPI.m */,
 				3E5C467515D8A70500D540BF /* Blog.h */,
 				3E5C467615D8A70500D540BF /* Blog.m */,
+				3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */,
+				3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */,
 				3E0D71BB15D74D590042C074 /* listenr.xcdatamodeld */,
 				3E5FD1AA15D8E8C10072A3B4 /* Song.h */,
 				3E5FD1AB15D8E8C10072A3B4 /* Song.m */,
@@ -199,6 +205,7 @@
 				3E5FD1A515D8E3770072A3B4 /* AddBlogVC.h in Headers */,
 				3E5FD1A815D8E48F0072A3B4 /* SongsVC.h in Headers */,
 				3E5FD1AC15D8E8C10072A3B4 /* Song.h in Headers */,
+				3E5FD1B015D8EFF70072A3B4 /* NSManagedObject+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +304,7 @@
 				3E5C467815D8A70500D540BF /* Blog.m in Sources */,
 				3E5FD1A915D8E48F0072A3B4 /* SongsVC.m in Sources */,
 				3E5FD1AD15D8E8C10072A3B4 /* Song.m in Sources */,
+				3E5FD1B115D8EFF70072A3B4 /* NSManagedObject+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
