@@ -39,17 +39,19 @@
 
 - (void)done {
     // show spinner
-    NSString *blogName = [self trueBlogName];
-    [self setDoneEnabled:NO];
-    
-    [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
-    [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
-        [[AppDelegate sharedDelegate] saveContext];
-        [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD dismissWithError:@"Could not find blog."];
-    }];
+    if (self.navigationItem.rightBarButtonItem.enabled){
+        NSString *blogName = [self trueBlogName];
+        [self setDoneEnabled:NO];
+        
+        [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
+        [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
+            [[AppDelegate sharedDelegate] saveContext];
+            [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [SVProgressHUD dismissWithError:@"Could not find blog."];
+        }];
+    }
 }
 
 - (void)setDoneEnabled:(BOOL)enabled {
@@ -57,9 +59,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (self.navigationItem.rightBarButtonItem.enabled) {
-        [self done];
-    }
+    [self done];
     return YES;
 }
 
