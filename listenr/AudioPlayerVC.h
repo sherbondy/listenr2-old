@@ -46,6 +46,11 @@
 @property (weak, nonatomic)   IBOutlet UIButton  *playButton;
 @property (weak, nonatomic)   IBOutlet UIButton  *nextButton;
 
+@property (strong, nonatomic) IBOutlet UIView *navTitleView;
+@property (weak, nonatomic)   IBOutlet UILabel *songTitleLabel;
+@property (weak, nonatomic)   IBOutlet UILabel *albumLabel;
+@property (weak, nonatomic)   IBOutlet UILabel *artistLabel;
+
 @property (nonatomic, strong, readonly) AVPlayer *player;
 @property (nonatomic, weak)             id<AudioPlayerDatasource> datasource;
 

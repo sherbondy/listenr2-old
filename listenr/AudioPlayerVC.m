@@ -39,9 +39,15 @@
     if (_currentSong != newSong){
         _currentSong = newSong;
         [self.albumArt setImageWithURL:[NSURL URLWithString:newSong.album_art] placeholderImage:[UIImage imageNamed:@"album_full"]];
+        
         [self.captionWebView loadHTMLString:_currentSong.caption baseURL:[NSURL URLWithString:_currentSong.post_url]];
-        [self.authorLabel setText:_currentSong.blog.name];
-        [self.postDateLabel setText:[self prettyStringForDate:_currentSong.timestamp]];
+        [self.authorLabel    setText:_currentSong.blog.name];
+        [self.postDateLabel  setText:[self prettyStringForDate:_currentSong.timestamp]];
+        
+        [self.songTitleLabel setText:_currentSong.track_name];
+        [self.artistLabel    setText:_currentSong.artist];
+        [self.albumLabel     setText:_currentSong.album];
+        
         [_player replaceCurrentItemWithPlayerItem:[self.currentSong playerItem]];
     }
 }
@@ -157,6 +163,7 @@
     }];
     
     self.navigationItem.rightBarButtonItem = self.rightInfoButton;
+    [self.navigationItem setTitleView:self.navTitleView];
     
     [self.captionWebView setDelegate:self];
     

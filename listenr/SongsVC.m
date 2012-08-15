@@ -16,6 +16,7 @@
 
 @interface SongsVC ()
 - (void)downloadSongs;
+- (void)pushPlayer;
 @end
 
 @implementation SongsVC
@@ -58,6 +59,11 @@
     [self downloadSongsWithOffset:0];
 }
 
+- (void)pushPlayer
+{
+    [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -83,6 +89,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if ([[AudioPlayerVC sharedVC] currentSong]){
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"NP" style:UIBarButtonItemStyleBordered
+                                                                                 target:self action:@selector(pushPlayer)];
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    
     [self fetch];
     [self downloadSongs];
 }
@@ -134,7 +148,7 @@
     Song *song = [_songsController objectAtIndexPath:indexPath];
     _currentSong = song;
     [[AudioPlayerVC sharedVC] setDatasource:self];
-    [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
+    [self pushPlayer];
     [[AudioPlayerVC sharedVC] playNewTrack];
 }
 
