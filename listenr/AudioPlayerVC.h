@@ -13,11 +13,15 @@
 
 @protocol AudioPlayerDatasource <NSObject>
 
-- (void)playPrevious;
 - (BOOL)hasPrevious;
+- (void)playPrevious;
+- (Song *)previousSong;
+
 - (Song *)currentSong;
+
 - (BOOL)hasNext;
 - (void)playNext;
+- (Song *)nextSong;
 
 @end
 

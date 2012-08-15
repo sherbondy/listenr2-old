@@ -153,37 +153,6 @@
     [[AudioPlayerVC sharedVC] playNewTrack];
 }
 
-- (BOOL)hasPrevious {
-    return (_currentSongIndex > 0);
-}
-
-- (BOOL)hasNext {
-    return (_currentSongIndex < (_songsController.fetchedObjects.count - 1));
-}
-
-typedef NSInteger (*PrevNextPtr)(NSInteger, NSFetchedResultsController*);
-
-NSInteger prevFunction(NSInteger index, NSFetchedResultsController *controller) {
-    return MAX(0, index - 1);
-}
-NSInteger nextFunction(NSInteger index, NSFetchedResultsController *controller) {
-    return MIN((controller.fetchedObjects.count - 1), index + 1);
-}
-
-- (void)playPrevOrNext:(PrevNextPtr)prevNextFn{
-    _currentSongIndex = prevNextFn(_currentSongIndex, _songsController);
-    _currentSong = [_songsController objectAtIndexPath:[NSIndexPath indexPathForRow:_currentSongIndex inSection:0]];
-    [[AudioPlayerVC sharedVC] playNewTrack];
-}
-
-- (void)playPrevious {
-    [self playPrevOrNext:prevFunction];
-}
-- (void)playNext {
-    [self playPrevOrNext:nextFunction];
-
-}
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
     if (type == NSFetchedResultsChangeInsert){
@@ -201,6 +170,55 @@ NSInteger nextFunction(NSInteger index, NSFetchedResultsController *controller) 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [[self tableView] endUpdates];
+}
+
+# pragma mark - AudioPlayerDatasource methods
+
+- (BOOL)hasPrevious {
+    return (_currentSongIndex > 0);
+}
+
+- (BOOL)hasNext {
+    return (_currentSongIndex < (_songsController.fetchedObjects.count - 1));
+}
+
+typedef NSInteger (*PrevNextPtr)(NSInteger, NSFetchedResultsController*);
+
+NSInteger prevSongRowFn(NSInteger index, NSFetchedResultsController *controller) {
+    return MAX(0, index - 1);
+}
+NSInteger nextSongRowFn(NSInteger index, NSFetchedResultsController *controller) {
+    return MIN((controller.fetchedObjects.count - 1), index + 1);
+}
+
+- (NSIndexPath *)prevOrNextIndex:(PrevNextPtr)prevNextFn {
+    return [NSIndexPath indexPathForRow:prevNextFn(_currentSongIndex, _songsController) inSection:0];
+}
+
+- (void)playPrevOrNext:(PrevNextPtr)prevNextFn {
+    NSIndexPath *prevOrNextIndex = [self prevOrNextIndex:prevNextFn];
+    _currentSongIndex = prevOrNextIndex.row;
+    _currentSong = [_songsController objectAtIndexPath:prevOrNextIndex];
+    [[AudioPlayerVC sharedVC] playNewTrack];
+}
+
+- (void)playPrevious {
+    [self playPrevOrNext:prevSongRowFn];
+}
+- (void)playNext {
+    [self playPrevOrNext:nextSongRowFn];
+}
+
+- (Song *)prevOrNextSong:(PrevNextPtr)prevNextFn {
+    return [_songsController objectAtIndexPath:[self prevOrNextIndex:prevNextFn]];
+}
+
+- (Song *)previousSong {
+    return [self prevOrNextSong:prevSongRowFn];
+}
+
+- (Song *)nextSong {
+    return [self prevOrNextSong:nextSongRowFn];
 }
 
 @end
