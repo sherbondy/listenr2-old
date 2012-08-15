@@ -15,6 +15,7 @@
 		3E0D71B615D74D590042C074 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D71B515D74D590042C074 /* main.m */; };
 		3E0D71BA15D74D590042C074 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D71B915D74D590042C074 /* AppDelegate.m */; };
 		3E0D71BD15D74D590042C074 /* listenr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D71BB15D74D590042C074 /* listenr.xcdatamodeld */; };
+		3E3A5B7F15DC4AB2003C500C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3A5B7E15DC4AB2003C500C /* MediaPlayer.framework */; };
 		3E58FB0C15D7500900833D98 /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E58FB0B15D7500900833D98 /* HomeVC.m */; };
 		3E58FB1015D7501900833D98 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E58FB0F15D7501900833D98 /* Theme.m */; };
 		3E5C467715D8A70500D540BF /* Blog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5C467515D8A70500D540BF /* Blog.h */; };
@@ -62,6 +63,7 @@
 		3E0D71B815D74D590042C074 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3E0D71B915D74D590042C074 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3E0D71BC15D74D590042C074 /* listenr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = listenr.xcdatamodel; sourceTree = "<group>"; };
+		3E3A5B7E15DC4AB2003C500C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3E58FB0A15D7500900833D98 /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
 		3E58FB0B15D7500900833D98 /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		3E58FB0E15D7501900833D98 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E3A5B7F15DC4AB2003C500C /* MediaPlayer.framework in Frameworks */,
 				3EFD36EB15DB798700641429 /* CoreMedia.framework in Frameworks */,
 				3EA1063915DB384C001A6882 /* AudioToolbox.framework in Frameworks */,
 				3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */,
@@ -137,6 +140,7 @@
 		3E0D71A615D74D590042C074 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E3A5B7E15DC4AB2003C500C /* MediaPlayer.framework */,
 				3EFD36EA15DB798700641429 /* CoreMedia.framework */,
 				3EA1063815DB384C001A6882 /* AudioToolbox.framework */,
 				3ED8586E15D932560044B0A1 /* AVFoundation.framework */,

@@ -8,6 +8,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #import "AudioPlayerVC.h"
 #import "Song.h"
