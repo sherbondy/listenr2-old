@@ -13,9 +13,11 @@
 
 @protocol AudioPlayerDatasource <NSObject>
 
+- (void)playPrevious;
+- (BOOL)hasPrevious;
 - (Song *)currentSong;
-- (Song *)nextSong;
-- (Song *)previousSong;
+- (BOOL)hasNext;
+- (void)playNext;
 
 @end
 
@@ -25,6 +27,7 @@
 };
 
 @property (strong, nonatomic, readonly) Song     *currentSong;
+@property (nonatomic, readonly)         float     durationSeconds;
 
 @property (weak, nonatomic)   IBOutlet UILabel  *progressLabel;
 @property (weak, nonatomic)   IBOutlet UISlider *progressSlider;

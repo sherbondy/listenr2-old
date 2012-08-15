@@ -147,16 +147,41 @@
 {
     Song *song = [_songsController objectAtIndexPath:indexPath];
     _currentSong = song;
+    _currentSongIndex = indexPath.row;
     [[AudioPlayerVC sharedVC] setDatasource:self];
     [self pushPlayer];
     [[AudioPlayerVC sharedVC] playNewTrack];
 }
 
-- (Song *)previousSong {
-    return nil;
+- (BOOL)hasPrevious {
+    return (_currentSongIndex > 0);
 }
-- (Song *)nextSong {
-    return nil;
+
+- (BOOL)hasNext {
+    return (_currentSongIndex < (_songsController.fetchedObjects.count - 1));
+}
+
+typedef NSInteger (*PrevNextPtr)(NSInteger, NSFetchedResultsController*);
+
+NSInteger prevFunction(NSInteger index, NSFetchedResultsController *controller) {
+    return MAX(0, index - 1);
+}
+NSInteger nextFunction(NSInteger index, NSFetchedResultsController *controller) {
+    return MIN((controller.fetchedObjects.count - 1), index + 1);
+}
+
+- (void)playPrevOrNext:(PrevNextPtr)prevNextFn{
+    _currentSongIndex = prevNextFn(_currentSongIndex, _songsController);
+    _currentSong = [_songsController objectAtIndexPath:[NSIndexPath indexPathForRow:_currentSongIndex inSection:0]];
+    [[AudioPlayerVC sharedVC] playNewTrack];
+}
+
+- (void)playPrevious {
+    [self playPrevOrNext:prevFunction];
+}
+- (void)playNext {
+    [self playPrevOrNext:nextFunction];
+
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath

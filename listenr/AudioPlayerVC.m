@@ -49,6 +49,9 @@
         [self.albumLabel     setText:_currentSong.album];
         
         [_player replaceCurrentItemWithPlayerItem:[self.currentSong playerItem]];
+        if (self.player.status == AVPlayerStatusReadyToPlay){
+            [self play];
+        }
     }
 }
 
@@ -111,6 +114,8 @@
     return self;
 }
 
+
+
 - (void)togglePlaybackStatusBar
 {
     self.playbackStatusBar.hidden = !self.playbackStatusBar.isHidden;
@@ -137,6 +142,55 @@
     }];
 }
 
+- (float)playerSeconds {
+    return CMTimeGetSeconds(self.player.currentTime);
+}
+
+- (float)durationSeconds {
+    return CMTimeGetSeconds(self.player.currentItem.duration);
+}
+
+- (void)noSongsLeft {
+    [self pause];
+    _currentSong = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)beganScrubbing:(id)sender {
+    [self pause];
+}
+
+- (IBAction)finishedScrubbing:(id)sender {
+    float percentage = [(UISlider *)sender value];
+    [self.player seekToTime:CMTimeMakeWithSeconds(self.durationSeconds*percentage, 1)];
+    [self play];
+}
+
+
+- (IBAction)triggerPrevious:(id)sender {
+    // Jump to beginning of track
+    if ([self playerSeconds] > 1){
+        [self.player seekToTime:CMTimeMakeWithSeconds(0, 1)];
+    } else {
+        if ([self.datasource hasPrevious]){
+            [self.datasource playPrevious];
+        } else {
+            [self noSongsLeft];
+        }
+    }
+}
+
+- (IBAction)triggerNext:(id)sender {
+    if ([self.datasource hasNext]){
+        [self.datasource playNext];
+    } else {
+        [self noSongsLeft];
+    }
+}
+
+
+#pragma mark Formatting
+
 - (NSString *)prettyStringForDate:(NSDate *)date
 {
     return [_postDateFormatter stringFromDate:_currentSong.timestamp];
@@ -147,6 +201,9 @@
     return [_timeFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:seconds]];
 }
 
+
+#pragma mark View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -154,7 +211,7 @@
 
     [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         float progressSeconds = CMTimeGetSeconds(time);
-        float durationSeconds = CMTimeGetSeconds(self.player.currentItem.duration);
+        float durationSeconds = self.durationSeconds;
         [self.progressSlider setValue:(progressSeconds/durationSeconds)];
         
         AudioPlayerVC *playerVC = [AudioPlayerVC sharedVC];
