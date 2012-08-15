@@ -11,9 +11,9 @@
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="blog" inverseEntity="Song" syncable="YES"/>
     </entity>
     <entity name="Song" representedClassName="Song" syncable="YES">
-        <attribute name="album" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="album" optional="YES" attributeType="String" defaultValueString="Unknown Album" syncable="YES"/>
         <attribute name="album_art" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artist" optional="YES" attributeType="String" defaultValueString="Unknown Artist" syncable="YES"/>
         <attribute name="audio_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -21,11 +21,11 @@
         <attribute name="post_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reblog_key" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="track_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="track_name" optional="YES" attributeType="String" defaultValueString="Unknown Title" syncable="YES"/>
         <relationship name="blog" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Blog" inverseName="songs" inverseEntity="Blog" syncable="YES"/>
     </entity>
     <elements>
         <element name="Blog" positionX="-216" positionY="-54" width="128" height="163"/>
-        <element name="Song" positionX="351" positionY="-63" width="128" height="223"/>
+        <element name="Song" positionX="351" positionY="-63" width="128" height="225"/>
     </elements>
 </model>

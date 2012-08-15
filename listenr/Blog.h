@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSDate * updated;
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSNumber * following;
-@property (nonatomic, strong) NSManagedObject *songs;
+@property (nonatomic, strong) NSSet    * songs;
 @property (nonatomic, strong) NSNumber * favorite;
 
 // transforms the dictionary output of a blog request into a blog

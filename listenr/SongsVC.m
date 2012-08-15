@@ -112,11 +112,8 @@
     }
     
     Song *song = [self.songsController objectAtIndexPath:indexPath];
-    NSString *defaultTrackName = @"Unknown Song";
-    NSString *defaultArtist = @"Unknown Artist";
-    NSString *defaultAlbum = @"Unknown Album";
-    cell.textLabel.text = song.track_name ? song.track_name : defaultTrackName;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", (song.artist ? song.artist : defaultArtist), (song.album ? song.album : defaultAlbum)];
+    cell.textLabel.text = song.track_name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", song.artist, song.album];
     
     [cell.imageView setImageWithURL:[NSURL URLWithString:song.album_art] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
 
@@ -127,13 +124,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     Song *song = [_songsController objectAtIndexPath:indexPath];
     NSLog(@"%@", song.audio_url);
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[song trueAudioURL]];
