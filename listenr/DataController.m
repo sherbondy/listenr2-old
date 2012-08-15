@@ -19,9 +19,7 @@
     static DataController *sharedController;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (!sharedController){
-            sharedController = [[DataController alloc] init];
-        }
+        sharedController = [[DataController alloc] init];
     });
     return sharedController;
 }

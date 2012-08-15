@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class AVPlayerItem;
 @class Blog;
 
 @interface Song : NSManagedObject
 
 + (Song *)songForAttrs:(NSDictionary *)songAttrs;
 - (NSURL *)trueAudioURL;
+- (AVPlayerItem *)playerItem;
 
 @property (nonatomic, strong) NSString * album;
 @property (nonatomic, strong) NSString * album_art;

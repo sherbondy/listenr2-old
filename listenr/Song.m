@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Unidextrous. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
+
 #import "Song.h"
 #import "Blog.h"
 #import "NSManagedObject+Additions.h"
@@ -38,6 +40,11 @@
         [song setValue:songID forKey:@"post_id"];
     }
     return song;
+}
+
+- (AVPlayerItem *)playerItem
+{
+    return [AVPlayerItem playerItemWithURL:[self trueAudioURL]];
 }
 
 - (NSURL *)trueAudioURL

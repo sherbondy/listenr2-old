@@ -6,29 +6,19 @@
 //
 //
 
+#import "AudioPlayerVC.h"
 #import "SongsVC.h"
 #import "Blog.h"
 #import "Song.h"
 #import "DataController.h"
 #import "TumblrAPI.h"
 #import "NSManagedObjectContext+Additions.h"
-#import <AVFoundation/AVFoundation.h>
 
 @interface SongsVC ()
 - (void)downloadSongs;
 @end
 
 @implementation SongsVC
-
-+ (AVPlayer *)sharedPlayer
-{
-    static AVPlayer *player;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        player = [[AVPlayer alloc] init];
-    });
-    return player;
-}
 
 - (id)initWithSource:(Blog *)source
 {
@@ -79,8 +69,6 @@
     self.refreshControl = refreshControl;
     [self.refreshControl addTarget:self action:@selector(downloadSongs) forControlEvents:UIControlEventValueChanged];
     
-    [[SongsVC sharedPlayer] addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-
     _fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Song"];
     // Make it possible to sort by song name too!
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO]; // sort by post date
@@ -144,21 +132,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Song *song = [_songsController objectAtIndexPath:indexPath];
-    NSLog(@"%@", song.audio_url);
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[song trueAudioURL]];
-    [[SongsVC sharedPlayer] replaceCurrentItemWithPlayerItem:item];
+    _currentSong = song;
+    [[AudioPlayerVC sharedVC] setDatasource:self];
+    [[AudioPlayerVC sharedVC] play];
+    [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([object isKindOfClass:[AVPlayer self]]){
-        
-        if ([[change objectForKey:@"new"] intValue] == AVPlayerStatusReadyToPlay){
-            NSLog(@"Time to play!");
-            AVPlayer *player = object;
-            [player play];
-        }
-    }
+- (Song *)previousSong {
+    return nil;
+}
+- (Song *)nextSong {
+    return nil;
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath

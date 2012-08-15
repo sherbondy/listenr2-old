@@ -38,6 +38,10 @@
 		3EE51CD715DB2ED000907BBA /* NSManagedObject+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */; };
 		3EE51CDC15DB30CE00907BBA /* NSManagedObjectContext+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */; };
 		3EE51CDD15DB30D700907BBA /* NSManagedObjectContext+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */; };
+		3EFD36E615DB66B800641429 /* AudioPlayerVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EFD36E315DB66B800641429 /* AudioPlayerVC.h */; };
+		3EFD36E715DB66B800641429 /* AudioPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EFD36E415DB66B800641429 /* AudioPlayerVC.m */; };
+		3EFD36E815DB66B800641429 /* AudioPlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EFD36E515DB66B800641429 /* AudioPlayerVC.xib */; };
+		3EFD36EB15DB798700641429 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFD36EA15DB798700641429 /* CoreMedia.framework */; };
 		6FE7421D4C3C4EE0ACD22495 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46D6D6B5EA46B5A043E07E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +87,10 @@
 		3ED8586E15D932560044B0A1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Additions.h"; sourceTree = "<group>"; };
 		3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Additions.m"; sourceTree = "<group>"; };
+		3EFD36E315DB66B800641429 /* AudioPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerVC.h; sourceTree = "<group>"; };
+		3EFD36E415DB66B800641429 /* AudioPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerVC.m; sourceTree = "<group>"; };
+		3EFD36E515DB66B800641429 /* AudioPlayerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerVC.xib; sourceTree = "<group>"; };
+		3EFD36EA15DB798700641429 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EFD36EB15DB798700641429 /* CoreMedia.framework in Frameworks */,
 				3EA1063915DB384C001A6882 /* AudioToolbox.framework in Frameworks */,
 				3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */,
 				3E0D71A815D74D590042C074 /* UIKit.framework in Frameworks */,
@@ -124,6 +133,7 @@
 		3E0D71A615D74D590042C074 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3EFD36EA15DB798700641429 /* CoreMedia.framework */,
 				3EA1063815DB384C001A6882 /* AudioToolbox.framework */,
 				3ED8586E15D932560044B0A1 /* AVFoundation.framework */,
 				3E0D71A715D74D590042C074 /* UIKit.framework */,
@@ -152,6 +162,9 @@
 				3E5FD1A715D8E48F0072A3B4 /* SongsVC.m */,
 				3E58FB0E15D7501900833D98 /* Theme.h */,
 				3E58FB0F15D7501900833D98 /* Theme.m */,
+				3EFD36E315DB66B800641429 /* AudioPlayerVC.h */,
+				3EFD36E415DB66B800641429 /* AudioPlayerVC.m */,
+				3EFD36E515DB66B800641429 /* AudioPlayerVC.xib */,
 				3E0D71B015D74D590042C074 /* Supporting Files */,
 			);
 			path = listenr;
@@ -221,6 +234,7 @@
 				3E8990AA15DB282A00351FB0 /* DataController.h in Headers */,
 				3EE51CD715DB2ED000907BBA /* NSManagedObject+Additions.h in Headers */,
 				3EE51CDC15DB30CE00907BBA /* NSManagedObjectContext+Additions.h in Headers */,
+				3EFD36E615DB66B800641429 /* AudioPlayerVC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +294,7 @@
 				3E0D71B415D74D590042C074 /* InfoPlist.strings in Resources */,
 				3EB39E5515D784A7003E538C /* default_avatar.png in Resources */,
 				3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */,
+				3EFD36E815DB66B800641429 /* AudioPlayerVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +336,7 @@
 				3E8990AB15DB282A00351FB0 /* DataController.m in Sources */,
 				3EE51CD615DB2EC500907BBA /* NSManagedObject+Additions.m in Sources */,
 				3EE51CDD15DB30D700907BBA /* NSManagedObjectContext+Additions.m in Sources */,
+				3EFD36E715DB66B800641429 /* AudioPlayerVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
