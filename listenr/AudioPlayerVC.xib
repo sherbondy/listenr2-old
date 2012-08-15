@@ -339,7 +339,7 @@
 									<object class="IBUISlider" id="530189694">
 										<reference key="NSNextResponder" ref="426802927"/>
 										<int key="NSvFlags">295</int>
-										<string key="NSFrame">{{60, 20}, {200, 23}}</string>
+										<string key="NSFrame">{{60, 4}, {200, 23}}</string>
 										<reference key="NSSuperview" ref="426802927"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="629791979"/>
@@ -352,7 +352,7 @@
 									<object class="IBUILabel" id="681595011">
 										<reference key="NSNextResponder" ref="426802927"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{11, 20}, {43, 21}}</string>
+										<string key="NSFrame">{{11, 4}, {43, 21}}</string>
 										<reference key="NSSuperview" ref="426802927"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="530189694"/>
@@ -367,13 +367,13 @@
 										<int key="IBUIBaselineAdjustment">0</int>
 										<string key="IBUIText">00:00</string>
 										<reference key="IBUITextColor" ref="797247963"/>
-										<object class="IBUIFontDescription" key="IBUIFontDescription" id="553509889">
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="509678820">
 											<int key="type">2</int>
-											<double key="pointSize">14</double>
+											<double key="pointSize">13</double>
 										</object>
-										<object class="NSFont" key="IBUIFont" id="577465681">
+										<object class="NSFont" key="IBUIFont" id="867467706">
 											<string key="NSName">Helvetica-Bold</string>
-											<double key="NSSize">14</double>
+											<double key="NSSize">13</double>
 											<int key="NSfFlags">16</int>
 										</object>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -382,7 +382,7 @@
 									<object class="IBUILabel" id="629791979">
 										<reference key="NSNextResponder" ref="426802927"/>
 										<int key="NSvFlags">289</int>
-										<string key="NSFrame">{{266, 20}, {43, 21}}</string>
+										<string key="NSFrame">{{266, 4}, {43, 21}}</string>
 										<reference key="NSSuperview" ref="426802927"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1064441390"/>
@@ -398,8 +398,8 @@
 										<string key="IBUIText">00:00</string>
 										<reference key="IBUITextColor" ref="797247963"/>
 										<int key="IBUITextAlignment">2</int>
-										<reference key="IBUIFontDescription" ref="553509889"/>
-										<reference key="IBUIFont" ref="577465681"/>
+										<reference key="IBUIFontDescription" ref="509678820"/>
+										<reference key="IBUIFont" ref="867467706"/>
 										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<int key="IBUIAutoshrinkMode">0</int>
 									</object>
@@ -464,7 +464,7 @@
 								<string key="NSFrame">{{208, 7}, {57, 44}}</string>
 								<reference key="NSSuperview" ref="1064441390"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="218859317"/>
+								<reference key="NSNextKeyView" ref="622460305"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -504,7 +504,7 @@
 								<reference key="IBUIFontDescription" ref="534410837"/>
 								<reference key="IBUIFont" ref="571999563"/>
 							</object>
-							<object class="IBUIView" id="218859317">
+							<object class="IBUIView" id="622460305">
 								<reference key="NSNextResponder" ref="1064441390"/>
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{20, 58}, {280, 32}}</string>
@@ -708,30 +708,39 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">beganScrubbing:</string>
-						<reference key="source" ref="530189694"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">3</int>
-					</object>
-					<int key="connectionID">248</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">beganScrubbing:</string>
-						<reference key="source" ref="530189694"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">4</int>
-					</object>
-					<int key="connectionID">249</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">finishedScrubbing:</string>
 						<reference key="source" ref="530189694"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">8</int>
 					</object>
 					<int key="connectionID">250</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">beganScrubbing:</string>
+						<reference key="source" ref="530189694"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">1</int>
+					</object>
+					<int key="connectionID">262</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">continueScrubbing:</string>
+						<reference key="source" ref="530189694"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">3</int>
+					</object>
+					<int key="connectionID">263</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">continueScrubbing:</string>
+						<reference key="source" ref="530189694"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">4</int>
+					</object>
+					<int key="connectionID">264</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -822,8 +831,8 @@
 						<reference key="object" ref="426802927"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="530189694"/>
-							<reference ref="629791979"/>
 							<reference ref="681595011"/>
+							<reference ref="629791979"/>
 						</array>
 						<reference key="parent" ref="85310950"/>
 					</object>
@@ -913,13 +922,13 @@
 							<reference ref="970864113"/>
 							<reference ref="1038064238"/>
 							<reference ref="25920394"/>
-							<reference ref="218859317"/>
+							<reference ref="622460305"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">253</int>
-						<reference key="object" ref="218859317"/>
+						<reference key="object" ref="622460305"/>
 						<reference key="parent" ref="1064441390"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -973,7 +982,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">253</int>
+			<int key="maxID">264</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -981,19 +990,14 @@
 					<string key="className">AudioPlayerVC</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="beganScrubbing:">id</string>
-						<string key="finishedScrubbing:">id</string>
+						<string key="continueScrubbing:">id</string>
 						<string key="togglePlayback:">id</string>
 						<string key="triggerNext:">id</string>
 						<string key="triggerPrevious:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="beganScrubbing:">
-							<string key="name">beganScrubbing:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="finishedScrubbing:">
-							<string key="name">finishedScrubbing:</string>
+						<object class="IBActionInfo" key="continueScrubbing:">
+							<string key="name">continueScrubbing:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="togglePlayback:">

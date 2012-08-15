@@ -17,6 +17,7 @@
 
 @interface AudioPlayerVC ()
 - (NSString *)prettyStringForDate:(NSDate *)date;
+- (void)updateProgressAndDurationLabels:(CMTime)progress andSlider:(BOOL)shouldUpdateSlider;
 @end
 
 @implementation AudioPlayerVC
@@ -162,6 +163,10 @@
     [self pause];
 }
 
+- (IBAction)continueScrubbing:(id)sender {
+    [self updateProgressAndDurationLabels:self.player.currentTime andSlider:NO];
+}
+
 - (IBAction)finishedScrubbing:(id)sender {
     float percentage = [(UISlider *)sender value];
     [self.player seekToTime:CMTimeMakeWithSeconds(self.durationSeconds*percentage, 1)];
@@ -203,6 +208,20 @@
     return [_timeFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:seconds]];
 }
 
+// If no value for progress is passed, the current progress will be fetched from the player
+- (void)updateProgressAndDurationLabels:(CMTime)progress andSlider:(BOOL)shouldUpdateSlider
+{
+    float progressSeconds = CMTimeGetSeconds(progress);
+    float durationSeconds = self.durationSeconds;
+    
+    if (shouldUpdateSlider){
+        [self.progressSlider setValue:(progressSeconds/durationSeconds)];
+    }
+    
+    AudioPlayerVC *playerVC = [AudioPlayerVC sharedVC];
+    [self.progressLabel setText:[playerVC prettyTimeFromSeconds:progressSeconds]];
+    [self.durationLabel setText:[playerVC prettyTimeFromSeconds:durationSeconds]];
+}
 
 #pragma mark View Lifecycle
 
@@ -211,14 +230,9 @@
     [super viewDidLoad];
     [self.player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:NULL];
 
-    [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        float progressSeconds = CMTimeGetSeconds(time);
-        float durationSeconds = self.durationSeconds;
-        [self.progressSlider setValue:(progressSeconds/durationSeconds)];
-        
-        AudioPlayerVC *playerVC = [AudioPlayerVC sharedVC];
-        [self.progressLabel setText:[playerVC prettyTimeFromSeconds:progressSeconds]];
-        [self.durationLabel setText:[playerVC prettyTimeFromSeconds:durationSeconds]];
+    __block id audioPlayerVC = self;
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime progress) {
+        [audioPlayerVC updateProgressAndDurationLabels:progress andSlider:YES];
     }];
     
     self.navigationItem.rightBarButtonItem = self.rightInfoButton;

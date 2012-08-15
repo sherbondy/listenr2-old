@@ -93,6 +93,7 @@
     if ([[AudioPlayerVC sharedVC] currentSong]){
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"NP" style:UIBarButtonItemStyleBordered
                                                                                  target:self action:@selector(pushPlayer)];
+        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     } else {
         self.navigationItem.rightBarButtonItem = nil;
     }
