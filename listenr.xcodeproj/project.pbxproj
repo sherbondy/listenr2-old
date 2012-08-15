@@ -42,6 +42,8 @@
 		3EFD36E715DB66B800641429 /* AudioPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EFD36E415DB66B800641429 /* AudioPlayerVC.m */; };
 		3EFD36E815DB66B800641429 /* AudioPlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EFD36E515DB66B800641429 /* AudioPlayerVC.xib */; };
 		3EFD36EB15DB798700641429 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFD36EA15DB798700641429 /* CoreMedia.framework */; };
+		3EFD36F215DB85DC00641429 /* album_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFD36F015DB85DC00641429 /* album_full.png */; };
+		3EFD36F315DB85DC00641429 /* album_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFD36F115DB85DC00641429 /* album_full@2x.png */; };
 		6FE7421D4C3C4EE0ACD22495 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46D6D6B5EA46B5A043E07E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +93,8 @@
 		3EFD36E415DB66B800641429 /* AudioPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerVC.m; sourceTree = "<group>"; };
 		3EFD36E515DB66B800641429 /* AudioPlayerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerVC.xib; sourceTree = "<group>"; };
 		3EFD36EA15DB798700641429 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3EFD36F015DB85DC00641429 /* album_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = album_full.png; sourceTree = "<group>"; };
+		3EFD36F115DB85DC00641429 /* album_full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "album_full@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,8 @@
 		3EB39E5115D78461003E538C /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				3EFD36F015DB85DC00641429 /* album_full.png */,
+				3EFD36F115DB85DC00641429 /* album_full@2x.png */,
 				3EB39E5315D784A7003E538C /* default_avatar.png */,
 				3EB39E5415D784A7003E538C /* default_avatar@2x.png */,
 			);
@@ -295,6 +301,8 @@
 				3EB39E5515D784A7003E538C /* default_avatar.png in Resources */,
 				3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */,
 				3EFD36E815DB66B800641429 /* AudioPlayerVC.xib in Resources */,
+				3EFD36F215DB85DC00641429 /* album_full.png in Resources */,
+				3EFD36F315DB85DC00641429 /* album_full@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

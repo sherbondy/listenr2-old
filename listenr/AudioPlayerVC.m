@@ -7,14 +7,18 @@
 //
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 #import "AudioPlayerVC.h"
 #import "Song.h"
 #import "Theme.h"
+#import "Blog.h"
 
 @interface AudioPlayerVC ()
 - (void)play;
 - (void)pause;
+
+- (NSString *)prettyStringForDate:(NSDate *)date;
 @end
 
 @implementation AudioPlayerVC
@@ -34,6 +38,10 @@
     Song *newSong = [[self datasource] currentSong];
     if (_currentSong != newSong){
         _currentSong = newSong;
+        [self.albumArt setImageWithURL:[NSURL URLWithString:newSong.album_art] placeholderImage:[UIImage imageNamed:@"album_full"]];
+        [self.captionWebView loadHTMLString:_currentSong.caption baseURL:[NSURL URLWithString:_currentSong.post_url]];
+        [self.authorLabel setText:_currentSong.blog.name];
+        [self.postDateLabel setText:[self prettyStringForDate:_currentSong.timestamp]];
         [_player replaceCurrentItemWithPlayerItem:[self.currentSong playerItem]];
     }
 }
@@ -51,7 +59,11 @@
 
 - (void)play {
     [self.player play];
-    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    if (self.player.status != AVPlayerStatusReadyToPlay){
+        [self.playButton setTitle:@"Loading" forState:UIControlStateNormal];
+    } else {
+        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    }
 }
 
 - (void)pause {
@@ -85,8 +97,43 @@
         _timeFormatter = [[NSDateFormatter alloc] init];
         [_timeFormatter setDateFormat:@"mm':'ss"];
         [_timeFormatter setLocale:usLocale];
+        
+        _postDateFormatter = [[NSDateFormatter alloc] init];
+        [_postDateFormatter setDateStyle:NSDateFormatterLongStyle];
+        [_postDateFormatter setTimeStyle:NSDateFormatterMediumStyle];
     }
     return self;
+}
+
+- (void)togglePlaybackStatusBar
+{
+    self.playbackStatusBar.hidden = !self.playbackStatusBar.isHidden;
+}
+
+- (IBAction)toggleInfo:(id)sender {
+    UIView *fromContainer;
+    UIView *toContainer;
+    UIViewAnimationOptions flipDirection;
+    if (self.infoViewContainer.isHidden){
+        fromContainer = self.albumViewContainer;
+        toContainer   = self.infoViewContainer;
+        flipDirection = UIViewAnimationOptionTransitionFlipFromLeft;
+        
+    } else {
+        fromContainer = self.infoViewContainer;
+        toContainer   = self.albumViewContainer;
+        flipDirection = UIViewAnimationOptionTransitionFlipFromRight;
+    }
+    
+    [UIView transitionFromView:fromContainer toView:toContainer duration:0.3
+                       options:(flipDirection|UIViewAnimationOptionShowHideTransitionViews)
+                    completion:^(BOOL finished) {
+    }];
+}
+
+- (NSString *)prettyStringForDate:(NSDate *)date
+{
+    return [_postDateFormatter stringFromDate:_currentSong.timestamp];
 }
 
 - (NSString *)prettyTimeFromSeconds:(float)seconds
@@ -108,6 +155,13 @@
         [self.progressLabel setText:[playerVC prettyTimeFromSeconds:progressSeconds]];
         [self.durationLabel setText:[playerVC prettyTimeFromSeconds:durationSeconds]];
     }];
+    
+    self.navigationItem.rightBarButtonItem = self.rightInfoButton;
+    
+    [self.captionWebView setDelegate:self];
+    
+    UITapGestureRecognizer *albumTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlaybackStatusBar)];
+    [self.albumArt addGestureRecognizer:albumTapRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
