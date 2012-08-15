@@ -26,6 +26,7 @@
 		3E5FD1AD15D8E8C10072A3B4 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AB15D8E8C10072A3B4 /* Song.m */; };
 		3E8990AA15DB282A00351FB0 /* DataController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E8990A815DB282A00351FB0 /* DataController.h */; };
 		3E8990AB15DB282A00351FB0 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8990A915DB282A00351FB0 /* DataController.m */; };
+		3EA1063915DB384C001A6882 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA1063815DB384C001A6882 /* AudioToolbox.framework */; };
 		3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E3915D764B0003E538C /* UIColor+Additions.m */; };
 		3EB39E4715D76B12003E538C /* Secrets.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EB39E4415D7693E003E538C /* Secrets.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3EB39E4915D76C37003E538C /* TumblrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E4115D76918003E538C /* TumblrAPI.m */; };
@@ -70,6 +71,7 @@
 		3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		3E8990A815DB282A00351FB0 /* DataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		3E8990A915DB282A00351FB0 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
+		3EA1063815DB384C001A6882 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3EB39E3815D764B0003E538C /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EB39E3915D764B0003E538C /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EB39E4015D76918003E538C /* TumblrAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TumblrAPI.h; sourceTree = "<group>"; };
@@ -79,8 +81,8 @@
 		3EB39E5415D784A7003E538C /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
 		3EB39EB815D86DF9003E538C /* AddBlogVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBlogVC.m; sourceTree = "<group>"; };
 		3ED8586E15D932560044B0A1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NSManagedObjectContext+Additions.h"; sourceTree = "<group>"; };
-		3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NSManagedObjectContext+Additions.m"; sourceTree = "<group>"; };
+		3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Additions.h"; sourceTree = "<group>"; };
+		3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Additions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EA1063915DB384C001A6882 /* AudioToolbox.framework in Frameworks */,
 				3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */,
 				3E0D71A815D74D590042C074 /* UIKit.framework in Frameworks */,
 				3E0D71AA15D74D590042C074 /* Foundation.framework in Frameworks */,
@@ -121,6 +124,7 @@
 		3E0D71A615D74D590042C074 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3EA1063815DB384C001A6882 /* AudioToolbox.framework */,
 				3ED8586E15D932560044B0A1 /* AVFoundation.framework */,
 				3E0D71A715D74D590042C074 /* UIKit.framework */,
 				3E0D71A915D74D590042C074 /* Foundation.framework */,
