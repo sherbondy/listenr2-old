@@ -63,5 +63,13 @@
 
 + (id)sharedVC;
 - (void)playNewTrack;
+- (IBAction)togglePlayback:(id)sender;
+
+- (IBAction)triggerPrevious:(id)sender;
+- (IBAction)triggerNext:(id)sender;
+
+- (void)play;
+- (void)playSong; // because Xcode is stupid and thinks this class is AVAudioPlayer...
+- (void)pause;
 
 @end

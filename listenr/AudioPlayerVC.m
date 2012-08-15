@@ -15,9 +15,6 @@
 #import "Blog.h"
 
 @interface AudioPlayerVC ()
-- (void)play;
-- (void)pause;
-
 - (NSString *)prettyStringForDate:(NSDate *)date;
 @end
 
@@ -73,6 +70,10 @@
     } else {
         [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
     }
+}
+
+- (void)playSong {
+    [self play];
 }
 
 - (void)pause {
@@ -226,6 +227,9 @@
     
     UITapGestureRecognizer *albumTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlaybackStatusBar)];
     [self.albumArt addGestureRecognizer:albumTapRecognizer];
+    
+    // Now we can safely begin receiving remote control events.
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 #import "AppDelegate.h"
+#import "AudioPlayerVC.h"
 #import "HomeVC.h"
 #import "Theme.h"
 
@@ -53,6 +54,31 @@
     [Theme apply];
             
     return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    switch(event.subtype) {
+        case UIEventSubtypeRemoteControlTogglePlayPause:
+            [[AudioPlayerVC sharedVC] togglePlayback:nil];
+            break;
+        case UIEventSubtypeRemoteControlPreviousTrack:
+            [[AudioPlayerVC sharedVC] triggerPrevious:nil];
+            break;
+        case UIEventSubtypeRemoteControlNextTrack:
+            [[AudioPlayerVC sharedVC] triggerNext:nil];
+            break;
+        case UIEventSubtypeRemoteControlPlay:
+            [[AudioPlayerVC sharedVC] playSong];
+            break;
+        case UIEventSubtypeRemoteControlPause:
+            [[AudioPlayerVC sharedVC] pause];
+            break;
+        case UIEventSubtypeRemoteControlStop:
+            [[AudioPlayerVC sharedVC] pause];
+            break;
+        default:
+            break;
+    }
 }
 
 @end

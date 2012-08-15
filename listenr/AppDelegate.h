@@ -13,5 +13,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 + (id)sharedDelegate;
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event;
 
 @end
