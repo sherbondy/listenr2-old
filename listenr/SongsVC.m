@@ -15,6 +15,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface SongsVC ()
+- (void)downloadSongs;
 @end
 
 @implementation SongsVC
@@ -47,12 +48,36 @@
     }
 }
 
+- (void)downloadSongsWithOffset:(NSUInteger)offset
+{
+    // grab the latest data from the blog
+    [[TumblrAPI sharedClient] blogPosts:self.source.name success:^(NSArray *posts) {
+        [[DataController sharedController] saveContext];
+        [self.refreshControl endRefreshing];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Request failed: %@", [error description]);
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+- (void)downloadSongs
+{
+    if (!self.refreshControl.isRefreshing){
+        [self.refreshControl beginRefreshing];
+    }
+    [self downloadSongsWithOffset:0];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     NSString *blogName = self.source.name;
 
     self.title = blogName;
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl = refreshControl;
+    [self.refreshControl addTarget:self action:@selector(downloadSongs) forControlEvents:UIControlEventValueChanged];
     
     [[SongsVC sharedPlayer] addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
 
@@ -71,13 +96,7 @@
 {
     [super viewWillAppear:animated];
     [self fetch];
-    
-    // grab the latest data from the blog
-    [[TumblrAPI sharedClient] blogPosts:self.source.name success:^(NSArray *posts) {
-        [[DataController sharedController] saveContext];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Request failed: %@", [error description]);
-    }];
+    [self downloadSongs];
 }
 
 - (void)didReceiveMemoryWarning
