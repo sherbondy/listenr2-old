@@ -10,7 +10,7 @@
 #import "UIColor+Additions.h"
 #import "TumblrAPI.h"
 #import "Blog.h"
-#import "AppDelegate.h"
+#import "DataController.h"
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <JMStaticContentTableViewController/JMStaticContentTableViewController.h>
@@ -46,7 +46,7 @@
         [SVProgressHUD showWithStatus:@"Verifying Blog Exists"];
         [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
             blog.favorite = @(YES);
-            [[AppDelegate sharedDelegate] saveContext];
+            [[DataController sharedController] saveContext];
             [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
             [self dismissViewControllerAnimated:YES completion:nil];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -191,6 +191,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
     [_blogInfoTimer invalidate];
     [self hideBlogInfo];
     _blogNameField.text = @"";

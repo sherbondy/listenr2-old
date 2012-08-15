@@ -8,9 +8,9 @@
 
 #import "HomeVC.h"
 #import "AddBlogVC.h"
-#import "AppDelegate.h"
 #import "Blog.h"
 #import "SongsVC.h"
+#import "DataController.h"
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
 
@@ -48,7 +48,8 @@
     fetchFavoriteBlogs.predicate = [NSPredicate predicateWithFormat:@"favorite == %@", @(YES)];
     
     // should probably set a cache eventually, in which case I'll need to call deleteCache at the proper times.
-    _blogController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchFavoriteBlogs managedObjectContext:[AppDelegate moc]
+    _blogController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchFavoriteBlogs
+                                                          managedObjectContext:[[DataController sharedController] moc]
                                                             sectionNameKeyPath:nil cacheName:@"BlogCache"];
     _blogController.delegate = self;
 }
@@ -96,7 +97,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete){
         [[_blogController managedObjectContext] deleteObject:[_blogController objectAtIndexPath:indexPath]];
     }
-    [[AppDelegate sharedDelegate] saveContext];
+    [[DataController sharedController] saveContext];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

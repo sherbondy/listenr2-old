@@ -7,7 +7,7 @@
 //
 
 #import "NSManagedObject+Additions.h"
-#import "AppDelegate.h"
+#import "DataController.h"
 
 @implementation NSManagedObject (Additions)
 
@@ -36,7 +36,7 @@
 
 + (id)objectWithAttrs:(NSDictionary *)attrs
 {
-    NSManagedObjectContext *moc = [AppDelegate moc];
+    NSManagedObjectContext *moc = [[DataController sharedController] moc];
     NSEntityDescription *description = [NSEntityDescription entityForName:NSStringFromClass([self class])
                                                    inManagedObjectContext:moc];
     NSManagedObject *managedObject = [[self alloc] initWithEntity:description insertIntoManagedObjectContext:moc];

@@ -8,7 +8,7 @@
 
 #import "TumblrAPI.h"
 #import "Secrets.h"
-#import "AppDelegate.h"
+#import "DataController.h"
 #import "NSManagedObjectContext+Additions.h"
 #import "Blog.h"
 #import "Song.h"
@@ -50,7 +50,7 @@
 
 - (Blog *)blogWithName:(NSString *)blogName
 {
-    return [[[AppDelegate moc] fetchObjectsForEntityName:@"Blog" withPredicate:@"name == %@", blogName, nil] anyObject];
+    return [[[[DataController sharedController] moc] fetchObjectsForEntityName:@"Blog" withPredicate:@"name == %@", blogName, nil] anyObject];
 }
 
 - (void)blogInfo:(NSString *)blogName success:(BlogSuccessBlock)successBlock
@@ -101,7 +101,7 @@
         
         // prune existing postIDs from the set of post IDs
         NSPredicate *existingPredicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
-        NSSet *existingPosts = [[AppDelegate moc] fetchObjectsForEntityName:@"Song" withPredicate:existingPredicate];
+        NSSet *existingPosts = [[[DataController sharedController] moc] fetchObjectsForEntityName:@"Song" withPredicate:existingPredicate];
         for (Song *song in existingPosts){
             if ([postIDs containsObject:song.post_id]){
                 [postIDs removeObject:song.post_id];

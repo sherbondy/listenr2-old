@@ -9,7 +9,7 @@
 #import "SongsVC.h"
 #import "Blog.h"
 #import "Song.h"
-#import "AppDelegate.h"
+#import "DataController.h"
 #import "TumblrAPI.h"
 #import "NSManagedObjectContext+Additions.h"
 #import <AVFoundation/AVFoundation.h>
@@ -62,7 +62,7 @@
     _fetchRequest.sortDescriptors = @[sortDescriptor];
     _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
         
-    _songsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:[AppDelegate moc]
+    _songsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:[[DataController sharedController] moc]
                                                              sectionNameKeyPath:nil cacheName:nil];
     _songsController.delegate = self;
 }
@@ -74,7 +74,7 @@
     
     // grab the latest data from the blog
     [[TumblrAPI sharedClient] blogPosts:self.source.name success:^(NSArray *posts) {
-        [[AppDelegate sharedDelegate] saveContext];
+        [[DataController sharedController] saveContext];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Request failed: %@", [error description]);
     }];
