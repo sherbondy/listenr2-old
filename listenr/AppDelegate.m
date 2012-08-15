@@ -17,11 +17,6 @@
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
-+(NSManagedObjectContext *)moc
-{
-    return [[AppDelegate sharedDelegate] managedObjectContext];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

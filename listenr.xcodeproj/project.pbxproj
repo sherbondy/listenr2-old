@@ -24,8 +24,6 @@
 		3E5FD1A915D8E48F0072A3B4 /* SongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1A715D8E48F0072A3B4 /* SongsVC.m */; };
 		3E5FD1AC15D8E8C10072A3B4 /* Song.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AA15D8E8C10072A3B4 /* Song.h */; };
 		3E5FD1AD15D8E8C10072A3B4 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AB15D8E8C10072A3B4 /* Song.m */; };
-		3E5FD1B015D8EFF70072A3B4 /* NSManagedObject+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */; };
-		3E5FD1B115D8EFF70072A3B4 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */; };
 		3E8990AA15DB282A00351FB0 /* DataController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E8990A815DB282A00351FB0 /* DataController.h */; };
 		3E8990AB15DB282A00351FB0 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8990A915DB282A00351FB0 /* DataController.m */; };
 		3EB39E3C15D764B0003E538C /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39E3915D764B0003E538C /* UIColor+Additions.m */; };
@@ -35,6 +33,10 @@
 		3EB39E5615D784A7003E538C /* default_avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB39E5415D784A7003E538C /* default_avatar@2x.png */; };
 		3EB39EBA15D86DF9003E538C /* AddBlogVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB39EB815D86DF9003E538C /* AddBlogVC.m */; };
 		3ED8586F15D932560044B0A1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED8586E15D932560044B0A1 /* AVFoundation.framework */; };
+		3EE51CD615DB2EC500907BBA /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */; };
+		3EE51CD715DB2ED000907BBA /* NSManagedObject+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */; };
+		3EE51CDC15DB30CE00907BBA /* NSManagedObjectContext+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */; };
+		3EE51CDD15DB30D700907BBA /* NSManagedObjectContext+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */; };
 		6FE7421D4C3C4EE0ACD22495 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46D6D6B5EA46B5A043E07E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		3EB39E5415D784A7003E538C /* default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar@2x.png"; sourceTree = "<group>"; };
 		3EB39EB815D86DF9003E538C /* AddBlogVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBlogVC.m; sourceTree = "<group>"; };
 		3ED8586E15D932560044B0A1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NSManagedObjectContext+Additions.h"; sourceTree = "<group>"; };
+		3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NSManagedObjectContext+Additions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,10 @@
 		3E58FB1415D7550D00833D98 /* categories */ = {
 			isa = PBXGroup;
 			children = (
+				3EE51CD815DB30B000907BBA /* NSManagedObjectContext+Additions.h */,
+				3EE51CD915DB30B000907BBA /* NSManagedObjectContext+Additions.m */,
+				3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */,
+				3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */,
 				3EB39E3815D764B0003E538C /* UIColor+Additions.h */,
 				3EB39E3915D764B0003E538C /* UIColor+Additions.m */,
 			);
@@ -178,8 +186,6 @@
 				3EB39E4115D76918003E538C /* TumblrAPI.m */,
 				3E5C467515D8A70500D540BF /* Blog.h */,
 				3E5C467615D8A70500D540BF /* Blog.m */,
-				3E5FD1AE15D8EFF70072A3B4 /* NSManagedObject+Additions.h */,
-				3E5FD1AF15D8EFF70072A3B4 /* NSManagedObject+Additions.m */,
 				3E0D71BB15D74D590042C074 /* listenr.xcdatamodeld */,
 				3E5FD1AA15D8E8C10072A3B4 /* Song.h */,
 				3E5FD1AB15D8E8C10072A3B4 /* Song.m */,
@@ -208,8 +214,9 @@
 				3E5FD1A515D8E3770072A3B4 /* AddBlogVC.h in Headers */,
 				3E5FD1A815D8E48F0072A3B4 /* SongsVC.h in Headers */,
 				3E5FD1AC15D8E8C10072A3B4 /* Song.h in Headers */,
-				3E5FD1B015D8EFF70072A3B4 /* NSManagedObject+Additions.h in Headers */,
 				3E8990AA15DB282A00351FB0 /* DataController.h in Headers */,
+				3EE51CD715DB2ED000907BBA /* NSManagedObject+Additions.h in Headers */,
+				3EE51CDC15DB30CE00907BBA /* NSManagedObjectContext+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,8 +314,9 @@
 				3E5C467815D8A70500D540BF /* Blog.m in Sources */,
 				3E5FD1A915D8E48F0072A3B4 /* SongsVC.m in Sources */,
 				3E5FD1AD15D8E8C10072A3B4 /* Song.m in Sources */,
-				3E5FD1B115D8EFF70072A3B4 /* NSManagedObject+Additions.m in Sources */,
 				3E8990AB15DB282A00351FB0 /* DataController.m in Sources */,
+				3EE51CD615DB2EC500907BBA /* NSManagedObject+Additions.m in Sources */,
+				3EE51CDD15DB30D700907BBA /* NSManagedObjectContext+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
