@@ -134,7 +134,7 @@
     Song *song = [_songsController objectAtIndexPath:indexPath];
     _currentSong = song;
     [[AudioPlayerVC sharedVC] setDatasource:self];
-    [[AudioPlayerVC sharedVC] play];
+    [[AudioPlayerVC sharedVC] playNewTrack];
     [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
 }
 

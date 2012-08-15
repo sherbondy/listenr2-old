@@ -23,13 +23,20 @@
     NSDateFormatter *_timeFormatter;
 };
 
-@property (weak, nonatomic)   IBOutlet  UILabel *progressLabel;
-@property (strong, nonatomic) IBOutlet  UILabel *durationLabel;
+@property (strong, nonatomic, readonly) Song     *currentSong;
+
+@property (weak, nonatomic)   IBOutlet  UILabel  *progressLabel;
 @property (weak, nonatomic)   IBOutlet  UISlider *progressSlider;
+@property (strong, nonatomic) IBOutlet  UILabel  *durationLabel;
+
+@property (weak, nonatomic)   IBOutlet UIButton  *previousButton;
+@property (weak, nonatomic)   IBOutlet UIButton  *playButton;
+@property (weak, nonatomic)   IBOutlet UIButton  *nextButton;
+
 @property (nonatomic, strong, readonly) AVPlayer *player;
 @property (nonatomic, weak)             id<AudioPlayerDatasource> datasource;
 
 + (id)sharedVC;
-- (void)play;
+- (void)playNewTrack;
 
 @end

@@ -13,7 +13,8 @@
 #import "Theme.h"
 
 @interface AudioPlayerVC ()
-
+- (void)play;
+- (void)pause;
 @end
 
 @implementation AudioPlayerVC
@@ -28,9 +29,13 @@
     return playerVC;
 }
 
-- (void)play
+- (void)playNewTrack
 {
-    [_player replaceCurrentItemWithPlayerItem:[[[self datasource] currentSong] playerItem]];
+    Song *newSong = [[self datasource] currentSong];
+    if (_currentSong != newSong){
+        _currentSong = newSong;
+        [_player replaceCurrentItemWithPlayerItem:[self.currentSong playerItem]];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -39,9 +44,26 @@
         
         if ([[change objectForKey:@"new"] intValue] == AVPlayerStatusReadyToPlay){
             NSLog(@"Time to play!");
-            AVPlayer *player = object;
-            [player play];
+            [self play];
         }
+    }
+}
+
+- (void)play {
+    [self.player play];
+    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+}
+
+- (void)pause {
+    [self.player pause];
+    [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+}
+
+- (IBAction)togglePlayback:(id)sender {
+    if ([self.player rate] == 1.0){
+        [self pause];
+    } else {
+        [self play];
     }
 }
 
