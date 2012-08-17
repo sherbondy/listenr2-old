@@ -73,7 +73,7 @@
 {
     // cd = case and diacritic insensitive
     NSString *cleanQuery = [query stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name like[cd] %@", [NSString stringWithFormat:@"*%@*", cleanQuery, nil]];
+    self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name contains[cd] %@", cleanQuery];
 }
 
 - (void)viewDidLoad
