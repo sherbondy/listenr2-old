@@ -21,7 +21,16 @@
 @property (nonatomic, readwrite, strong) NSIndexPath *currentIndexPath;
 @end
 
+static NSArray *scopeButtonTitles;
+static NSArray *searchTypes;
+
 @implementation SongsVC
+
++ (void)initialize
+{
+    scopeButtonTitles = @[@"Title", @"Artist", @"Album"];
+    searchTypes       = @[@"track_name", @"artist", @"album"];
+}
 
 - (id)initWithSource:(Blog *)source
 {
@@ -75,7 +84,9 @@
     NSString *cleanQuery = [query stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     // Don't start querying until there are 3+ characters
     if (cleanQuery.length > 2) {
-        self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name contains[cd] %@", cleanQuery];
+        NSInteger selectedIndex = self.searchDisplayController.searchBar.selectedScopeButtonIndex;
+        self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:
+                                                       [NSString stringWithFormat:@"%@ contains[cd] '%@'", searchTypes[selectedIndex], cleanQuery, nil]];
     }
 }
 
@@ -107,11 +118,11 @@
     
     // search bar setup
     UISearchBar *searchBar = [[UISearchBar alloc] init];
-    [searchBar sizeToFit];
+    searchBar.delegate = self;
     searchBar.placeholder = @"Search for Song";
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    searchBar.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
-    searchBar.delegate = self;
+    searchBar.scopeButtonTitles = scopeButtonTitles;
+    [searchBar sizeToFit];
     self.tableView.tableHeaderView = searchBar;
     
     // search display controller setup
@@ -190,13 +201,17 @@
         cell.accessoryView.hidden = YES;
     }
     
-    Song *song = [self.songsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = song.track_name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", song.artist, song.album];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:song.album_art] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-    
-    cell.accessoryView.hidden = ![song isEqualToSong:self.currentSong];
+    @try {
+        Song *song = [self.songsController objectAtIndexPath:indexPath];
+        cell.textLabel.text = song.track_name;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", song.artist, song.album];
+        [cell.imageView setImageWithURL:[NSURL URLWithString:song.album_art] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
         
+        cell.accessoryView.hidden = ![song isEqualToSong:self.currentSong];
+    } @catch (NSException *e) {
+        NSLog(@"Damn you, NSInternalInconsistency Exception.");
+    }
+    
     return cell;
 }
 
@@ -232,7 +247,6 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [[self tableView] endUpdates];
-    [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 # pragma mark - UISearchDisplayController gunk
@@ -240,9 +254,8 @@
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
     [self makeFetchRequestStandard];
-    [self fetch];    
+    [self fetch];
 }
-
 
 # pragma mark - UISearchBar delegate methods
 
@@ -252,6 +265,11 @@
     [self fetch];
 }
 
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self makeFetchRequestSearch:searchBar.text];
+    [self fetch];
+}
 
 # pragma mark - AudioPlayerDatasource methods
 
