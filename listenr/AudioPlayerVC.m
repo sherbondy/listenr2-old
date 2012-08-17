@@ -250,6 +250,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+        
     [UIView animateWithDuration:0.3 animations:^{
         [[[self navigationController] navigationBar] setTintColor:[UIColor blackColor]];
     }];

@@ -17,6 +17,8 @@
 @interface SongsVC ()
 - (void)downloadSongs;
 - (void)pushPlayer;
+
+@property (nonatomic, readwrite, strong) NSIndexPath *currentIndexPath;
 @end
 
 @implementation SongsVC
@@ -29,6 +31,9 @@
     }
     return self;
 }
+
+
+#pragma mark - Query party
 
 - (void)fetch
 {
@@ -59,11 +64,6 @@
     [self downloadSongsWithOffset:0];
 }
 
-- (void)pushPlayer
-{
-    [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
-}
-
 - (void)makeFetchRequestStandard
 {
     self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", self.source.name];
@@ -73,13 +73,32 @@
 {
     // cd = case and diacritic insensitive
     NSString *cleanQuery = [query stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name contains[cd] %@", cleanQuery];
+    // Don't start querying until there are 3+ characters
+    if (cleanQuery.length > 2) {
+        self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name contains[cd] %@", cleanQuery];
+    }
+}
+
+
+#pragma mark - View Lifecycle
+
+- (void)pushPlayer
+{
+    [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = self.source.name;
+    
+    /* Set left arrow for when we push the AudioPlayerVC.
+       This isn't the CURRENT back button, it's a hypothetical back button
+       that will be used for the next view controller pushed onto the stack */
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
+    [backButton setImage:[UIImage imageNamed:@"left_arrow"]];
+    self.navigationItem.backBarButtonItem = backButton;
+
     
     // refresh setup
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -118,13 +137,17 @@
 {
     [super viewWillAppear:animated];
     [self.tableView setContentOffset:CGPointMake(0, 44)];
-    
-    if ([[AudioPlayerVC sharedVC] currentSong]){
+        
+    if ([[AudioPlayerVC sharedVC] currentSong]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"NP" style:UIBarButtonItemStyleBordered
                                                                                  target:self action:@selector(pushPlayer)];
         [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     } else {
         self.navigationItem.rightBarButtonItem = nil;
+    }
+    
+    if (self.currentIndexPath) {
+        [self.tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }
     
     [self fetch];
@@ -160,14 +183,20 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        testView.backgroundColor = [UIColor blueColor];
+        [cell setAccessoryView:testView];
+        cell.accessoryView.hidden = YES;
     }
     
     Song *song = [self.songsController objectAtIndexPath:indexPath];
     cell.textLabel.text = song.track_name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", song.artist, song.album];
-    
     [cell.imageView setImageWithURL:[NSURL URLWithString:song.album_art] placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-
+    
+    cell.accessoryView.hidden = ![song isEqualToSong:self.currentSong];
+        
     return cell;
 }
 
@@ -175,20 +204,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Song *song = [_songsController objectAtIndexPath:indexPath];
+    Song *song = [self.songsController objectAtIndexPath:indexPath];
     _currentSong = song;
-    _currentSongIndex = indexPath.row;
+    self.currentIndexPath = indexPath;
     [[AudioPlayerVC sharedVC] setDatasource:self];
     [self pushPlayer];
     [[AudioPlayerVC sharedVC] playNewTrack];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
     if (type == NSFetchedResultsChangeInsert){
         [[self tableView] insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (type == NSFetchedResultsChangeDelete){
         [[self tableView] deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else {
+        NSLog(@"Unexpected results change");
     }
 }
 
@@ -200,6 +232,7 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [[self tableView] endUpdates];
+    [self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 # pragma mark - UISearchDisplayController gunk
@@ -207,11 +240,8 @@
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
     [self makeFetchRequestStandard];
-    [self fetch];
-    
-    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+    [self fetch];    
 }
-
 
 
 # pragma mark - UISearchBar delegate methods
@@ -223,43 +253,44 @@
 }
 
 
-
 # pragma mark - AudioPlayerDatasource methods
 
 - (BOOL)hasPrevious {
-    return (_currentSongIndex > 0);
+    return (self.currentIndexPath.row > 0);
 }
 
 - (BOOL)hasNext {
-    return (_currentSongIndex < (_songsController.fetchedObjects.count - 1));
+    return (self.currentIndexPath.row < (_songsController.fetchedObjects.count - 1));
 }
 
-typedef NSInteger (*PrevNextPtr)(NSInteger, NSFetchedResultsController*);
-
-NSInteger prevSongRowFn(NSInteger index, NSFetchedResultsController *controller) {
-    return MAX(0, index - 1);
-}
-NSInteger nextSongRowFn(NSInteger index, NSFetchedResultsController *controller) {
-    return MIN((controller.fetchedObjects.count - 1), index + 1);
-}
+typedef NSInteger (*PrevNextPtr)(NSUInteger, NSFetchedResultsController*);
 
 - (NSIndexPath *)prevOrNextIndex:(PrevNextPtr)prevNextFn {
-    return [NSIndexPath indexPathForRow:prevNextFn(_currentSongIndex, _songsController) inSection:0];
+    return [NSIndexPath indexPathForRow:prevNextFn(self.currentIndexPath.row, _songsController) inSection:0];
 }
 
 - (void)playPrevOrNext:(PrevNextPtr)prevNextFn {
     NSIndexPath *prevOrNextIndex = [self prevOrNextIndex:prevNextFn];
-    _currentSongIndex = prevOrNextIndex.row;
     _currentSong = [_songsController objectAtIndexPath:prevOrNextIndex];
+    self.currentIndexPath = prevOrNextIndex;
+    
     [[AudioPlayerVC sharedVC] playNewTrack];
 }
 
+NSInteger prevSongRowFn(NSUInteger index, NSFetchedResultsController *controller) {
+    return MAX(0, index - 1);
+}
 - (void)playPrevious {
     [self playPrevOrNext:prevSongRowFn];
+}
+
+NSInteger nextSongRowFn(NSUInteger index, NSFetchedResultsController *controller) {
+    return MIN((controller.fetchedObjects.count - 1), index + 1);
 }
 - (void)playNext {
     [self playPrevOrNext:nextSongRowFn];
 }
+
 
 - (Song *)prevOrNextSong:(PrevNextPtr)prevNextFn {
     return [_songsController objectAtIndexPath:[self prevOrNextIndex:prevNextFn]];

@@ -52,4 +52,9 @@
     return [NSURL URLWithString:[self.audio_url stringByAppendingString:@"?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio"]];
 }
 
+- (BOOL)isEqualToSong:(Song *)otherSong
+{
+    return [self.post_id isEqual:otherSong.post_id];
+}
+
 @end

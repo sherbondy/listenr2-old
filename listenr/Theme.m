@@ -13,7 +13,7 @@
 
 + (void)apply {
     [[UINavigationBar appearance] setTintColor:[UIColor purpleColor]];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
 }
 
 @end

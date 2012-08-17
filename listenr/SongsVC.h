@@ -18,7 +18,7 @@
 @property (nonatomic, readonly, strong) NSFetchRequest *fetchRequest;
 @property (nonatomic, readonly, strong) Blog *source;
 @property (nonatomic, readonly, weak)   Song *currentSong;
-@property (nonatomic, readonly, assign) NSInteger currentSongIndex;
+@property (nonatomic, readonly, strong) NSIndexPath *currentIndexPath;
 @property (nonatomic, strong) UISearchDisplayController *songSearchDC;
 
 - (id)initWithSource:(Blog *)source;

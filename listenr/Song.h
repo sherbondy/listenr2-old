@@ -17,6 +17,7 @@
 + (Song *)songForAttrs:(NSDictionary *)songAttrs;
 - (NSURL *)trueAudioURL;
 - (AVPlayerItem *)playerItem;
+- (BOOL)isEqualToSong:(Song *)otherSong;
 
 @property (nonatomic, strong) NSString * album;
 @property (nonatomic, strong) NSString * album_art;
