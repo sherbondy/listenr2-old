@@ -64,31 +64,60 @@
     [[self navigationController] pushViewController:[AudioPlayerVC sharedVC] animated:YES];
 }
 
+- (void)makeFetchRequestStandard
+{
+    self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", self.source.name];
+}
+
+- (void)makeFetchRequestSearch:(NSString *)query
+{
+    // cd = case and diacritic insensitive
+    NSString *cleanQuery = [query stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    self.songsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"track_name like[cd] %@", [NSString stringWithFormat:@"*%@*", cleanQuery, nil]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSString *blogName = self.source.name;
-
-    self.title = blogName;
+    self.title = self.source.name;
     
+    // refresh setup
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl = refreshControl;
     [self.refreshControl addTarget:self action:@selector(downloadSongs) forControlEvents:UIControlEventValueChanged];
+    
+    // search bar setup
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    [searchBar sizeToFit];
+    searchBar.placeholder = @"Search for Song";
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    searchBar.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
+    searchBar.delegate = self;
+    self.tableView.tableHeaderView = searchBar;
+    
+    // search display controller setup
+    self.songSearchDC = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    self.songSearchDC.delegate = self;
+    self.songSearchDC.searchResultsDelegate = self;
+    self.songSearchDC.searchResultsDataSource = self;
+
     
     _fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Song"];
     // Make it possible to sort by song name too!
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO]; // sort by post date
     _fetchRequest.sortDescriptors = @[sortDescriptor];
-    _fetchRequest.predicate = [NSPredicate predicateWithFormat:@"blog.name == %@", blogName];
-        
-    _songsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:[[DataController sharedController] moc]
+    
+    _songsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest
+                                                           managedObjectContext:[[DataController sharedController] moc]
                                                              sectionNameKeyPath:nil cacheName:nil];
+    [self makeFetchRequestStandard];
     _songsController.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.tableView setContentOffset:CGPointMake(0, 44)];
     
     if ([[AudioPlayerVC sharedVC] currentSong]){
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"NP" style:UIBarButtonItemStyleBordered
@@ -172,6 +201,28 @@
 {
     [[self tableView] endUpdates];
 }
+
+# pragma mark - UISearchDisplayController gunk
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    [self makeFetchRequestStandard];
+    [self fetch];
+    
+    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+}
+
+
+
+# pragma mark - UISearchBar delegate methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self makeFetchRequestSearch:searchText];
+    [self fetch];
+}
+
+
 
 # pragma mark - AudioPlayerDatasource methods
 

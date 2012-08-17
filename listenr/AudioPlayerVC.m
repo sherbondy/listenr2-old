@@ -139,7 +139,7 @@
         flipDirection = UIViewAnimationOptionTransitionFlipFromRight;
     }
     
-    [UIView transitionFromView:fromContainer toView:toContainer duration:0.3
+    [UIView transitionFromView:fromContainer toView:toContainer duration:0.5
                        options:(flipDirection|UIViewAnimationOptionShowHideTransitionViews)
                     completion:^(BOOL finished) {
     }];
