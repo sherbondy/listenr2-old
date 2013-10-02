@@ -47,10 +47,10 @@
         [[TumblrAPI sharedClient] blogInfo:blogName success:^(Blog *blog){
             blog.favorite = @(YES);
             [[DataController sharedController] saveContext];
-            [SVProgressHUD dismissWithSuccess:[NSString stringWithFormat:@"%@ Added", blogName]];
+            [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@ Added", blogName]];
             [self dismissViewControllerAnimated:YES completion:nil];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [SVProgressHUD dismissWithError:@"Could not find blog."];
+            [SVProgressHUD showErrorWithStatus:@"Could not find blog."];
         }];
     }
 }

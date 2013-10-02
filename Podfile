@@ -1,4 +1,4 @@
-platform :ios, '6.0'
-pod 'AFNetworking'
+platform :ios, '6.1'
+pod 'AFNetworking', '~> 1.3.3'
 pod 'JMStaticContentTableViewController'
 pod 'SVProgressHUD'

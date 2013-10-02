@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Unidextrous. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
-
 @interface NSManagedObject (Additions)
 
 + (id)transformValue:(id)value toType:(NSAttributeType)attributeType;
