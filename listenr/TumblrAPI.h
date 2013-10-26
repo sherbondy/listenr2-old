@@ -17,7 +17,7 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation, NSError *error);
 typedef void (^BlogSuccessBlock)(Blog *blog);
 typedef void (^PostsSuccessBlock)(NSArray *posts);
 
-@interface TumblrAPI : AFHTTPClient
+@interface TumblrAPI : AFHTTPRequestOperationManager
 
 + (TumblrAPI *)sharedClient;
 + (NSString *)blogHostname:(NSString *)blogName;

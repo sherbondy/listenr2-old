@@ -31,8 +31,8 @@
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];    
-	[self setDefaultHeader:@"Accept" value:@"application/json"];
+    [self setRequestSerializer:[AFJSONRequestSerializer serializer]];
+	[self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
     return self;
 }
@@ -60,7 +60,7 @@
     
     if (!existingBlog){
         NSString *blogURL = [NSString stringWithFormat:@"blog/%@/info", [TumblrAPI blogHostname:blogName]];
-        [self getPath:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject){
+        [self GET:blogURL parameters:[self apiDict] success:^(AFHTTPRequestOperation *operation, id responseObject){
             NSDictionary *blogAttrs = [[responseObject objectForKey:@"response"] objectForKey:@"blog"];
             Blog *blog = [Blog blogForAttrs:blogAttrs];
             NSLog(@"%@", blog);
@@ -81,7 +81,7 @@
     [params setObject:@"audio" forKey:@"type"];
     [params setObject:@"0" forKey:@"offset"];
     
-    [self getPath:postsURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {        
+    [self GET:postsURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *response = [responseObject objectForKey:@"response"];
         
         NSDictionary *blogData = [response objectForKey:@"blog"];

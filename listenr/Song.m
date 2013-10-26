@@ -49,7 +49,11 @@
 
 - (NSURL *)trueAudioURL
 {
-    return [NSURL URLWithString:[self.audio_url stringByAppendingString:@"?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio"]];
+    NSString *audio_url = self.audio_url;
+    if ([audio_url rangeOfString:@"www.tumblr.com"].length != 0){
+        audio_url = [audio_url stringByAppendingString:@"?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio"];
+    }
+    return [NSURL URLWithString:audio_url];
 }
 
 - (BOOL)isEqualToSong:(Song *)otherSong

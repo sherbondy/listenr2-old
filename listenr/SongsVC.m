@@ -13,6 +13,7 @@
 #import "DataController.h"
 #import "TumblrAPI.h"
 #import "NSManagedObjectContext+Additions.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface SongsVC ()
 - (void)downloadSongs;
