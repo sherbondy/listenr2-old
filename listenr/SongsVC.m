@@ -107,7 +107,7 @@ static NSArray *searchTypes;
        This isn't the CURRENT back button, it's a hypothetical back button
        that will be used for the next view controller pushed onto the stack */
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
-    [backButton setImage:[UIImage imageNamed:@"left_arrow"]];
+    [backButton setTitle:@""];
     self.navigationItem.backBarButtonItem = backButton;
 
     
@@ -160,6 +160,9 @@ static NSArray *searchTypes;
     if (self.currentIndexPath) {
         [self.tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor purpleColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     [self fetch];
     [self downloadSongs];
